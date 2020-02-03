@@ -10,17 +10,179 @@
 %% absolute positioning
 \usepackage[absolute,overlay]{textpos}
 \usepackage{mathrsfs} % https://www.ctan.org/pkg/mathrsfs
+
+\usepackage{xspace}
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{fit,shapes.geometric,calc,decorations.pathmorphing}
 %Information to be included in the title page:
 \title{\bf\LARGE Papers We Love \color{gray}{Milano} \#4}
 \subtitle{Partial Computation of Programs\\[5pt] (Futamura 1984)}
 \author{Edoardo Vacchi}
 % \institute{Overleaf}
 \date{19th February 2020}
- 
+
+\renewcommand{\P}{\ensuremath{\mathcal{P}}\xspace}
+\newcommand{\C}{\ensuremath{\mathcal{C}}\xspace}
+\newcommand{\I}{\ensuremath{\mathcal{I}}\xspace}
+\newcommand{\D}{\ensuremath{\mathcal{D}}\xspace}
+\newcommand{\R}{\ensuremath{\mathcal{R}}\xspace}
  
 \begin{document}
  
 \frame{\titlepage}
+
+
+
+\begin{frame}{Programs}
+
+    \begin{itemize}
+        \item Consider a program \P, with input data \D;
+        \item when we \textit{evaluate} \P over \D it produces
+        some output result \R.
+    \end{itemize}
+
+
+
+    \begin{center}
+    
+        \begin{tikzpicture}[scale=.5]
+            \tikzstyle{every path}=[draw, ->]
+            \tikzstyle{circ}=[draw, circle]
+            \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
+                \node [circ] (d) at (2,2) {\D};    
+                \node [circ] (r) at (8,2) {\R};    
+                \node [box] (p) at (5,2) {\P}; 
+                \path (d) -- (p);    
+                \path (p) -- (r);    
+        \end{tikzpicture}
+        
+    \end{center}
+
+    
+\end{frame}
+
+\begin{frame}{Interpreters}
+
+    \begin{itemize}
+    \item An \textit{interpreter} $\mathcal{I}$ is a \textit{program} 
+    \item it \textit{evaluates} some other given program $\mathcal{P}$
+    over some given data $\mathcal{D}$, and it produces the output
+    result \R.
+    \end{itemize}
+
+
+\begin{center}
+
+    \begin{tikzpicture}[scale=.5]
+        \tikzstyle{every path}=[draw, ->]
+        \tikzstyle{circ}=[draw, circle]
+        \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
+            \node [circ] (p) at (2,3) {\P};    
+            \node [circ] (d) at (2,1) {\D};    
+            \node [circ] (r) at (8,2) {\R};    
+            \node [box] (i) at (5,2) {\I}; 
+            \path (p) -- (i);    
+            \path (d) -- (i);    
+            \path (i) -- (r);    
+    \end{tikzpicture}
+    
+\end{center}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Compilers}
+
+    \begin{itemize}
+
+        \item 
+            Let be \P a program that evaluates to \R when given \D;
+        \item  
+            A \textit{compiler}, say $\mathcal{C}$, translates a source program
+            $\mathcal{P}$ to an object program $\P'$ that
+            evaluated over an input \D still produces \R
+        
+    
+    
+    \end{itemize}
+
+
+
+
+    \begin{center}
+    
+        \begin{tikzpicture}[scale=.5]
+            \tikzstyle{every path}=[draw, ->]
+            \tikzstyle{circ}=[draw, circle]
+            \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
+                \node [circ] (p)   at (2,2) {\P};    
+                \node [box]  (c)   at (5,2) {\C}; 
+                \node [circ] (cp)  at (8,2) {$\P'$};    
+                \node [box]  (cp2) at (5,-1) {$\P'$};    
+                \node [circ] (d)   at (2,-1) {\D};    
+                \node [circ] (r)   at (8,-1) {\R};    
+                \path (p) -- (c);    
+                \path (c) -- (cp);    
+                \path (d) -- (cp2);    
+                \path (cp2) -- (r);    
+        \end{tikzpicture}
+        
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    
+    Now, if we indicate $\P'$ with $C(P)$ we can write the following:
+
+    \begin{eqnarray*}        
+        \P(\D) &=& \R\\
+        \C(\P) &=& \P'\\
+        \P'(\D) &=& \R\\
+        \C(\P)(\D) &=& \R\\
+        \I(\P, \D) &=& \R\\
+        \C(\P)(\D) &=& \I(\P, \D) \\
+    \end{eqnarray*}
+    
+\end{frame}
+
+\begin{frame}{Compilers and Interpreters}
+
+    \begin{itemize}
+        \item 
+            An \textit{interpreter} $\mathcal{I}$ is a program to perform
+            specified computations that analyze the meanings of a given program, 
+            say $\mathcal{P}$, based upon given data, say $\mathcal{D}$.
+
+        \item 
+            A \textit{compiler}, say $\mathcal{C}$, translates a source program
+            say $\mathcal{P}$, to an object program $\mathcal{C}(\mathcal{P})$
+        
+    
+    
+    \end{itemize}
+    
+    Thus, 
+    running a program by intepreter means performing $\mathcal{I}(\mathcal{P}, \mathcal{D})$
+    
+    
+    This produces the following equation:
+    
+    \[
+        \mathcal{C}(\mathcal{P})(\mathcal{D}) = \mathcal{I}(\mathcal{P},\mathcal{D})
+    \]
+    
+    while $ \mathcal{I}_{\mathcal{P}} =  \alpha(\mathcal{I},\mathcal{P}) $
+    
+    \begin{equation}
+    \mathcal{I}_{\mathcal{P}} =  \mathcal{C}(\mathcal{P})
+    \end{equation}
+    
+    
+\end{frame}
 
 \begin{frame}{ex}
     Let us have a computation $f$ of two parameters $k$, $u$
@@ -51,7 +213,7 @@
 
 \end{frame}
  
-\begin{frame}
+\begin{frame}{Projection}
 Consider $f$
 
     \[
@@ -100,36 +262,99 @@ Non consider $\alpha_f$, the partial evaluation of $\alpha$ at $f$; then:
 
 therefore:
 \begin{equation}
-       \alpha_k =f_k 
+       \alpha_f(k) =f_k 
 \end{equation}
+\end{frame}
+
+\begin{frame}{Automatically generating a compiler}
+    
+\end{frame}
+
+
+
+
+\begin{frame}{Partial Evaluation of an Interpreter}
+
+
+\begin{center}
+
+    \begin{tikzpicture}
+        \tikzstyle{every path}=[draw, ->]
+        \tikzstyle{envel}=[shape=ellipse, draw]
+        \tikzstyle{circ}=[draw, circle]
+        \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
+            \node [circ] (in1) at (2,3) {\P};    
+            \node [circ] (in2) at (2,1) {\D};    
+            \node [circ] (out) at (8,2) {\R};    
+            \node [box] (box) at (5,2) {\I};
+            
+            
+            \path (in1) -- (box);    
+            \path (in2) -- (box);    
+            \path (box) -- (out);
+
+            \pause
+
+            \begin{scope}[shift={(in1))},x={(box)},y={($(in1)!1!90:(box)$)}]
+                \draw[red] (.5,0) ellipse (.8 and .5);
+            \end{scope}
+
+            \pause
+
+            \node[box](proj) at (5,-.5) {$\I_\P$};
+
+            \draw[line join=round,
+            decorate, decoration={
+                zigzag,
+                segment length=4,
+                amplitude=1,post=lineto,
+                post length=2pt}] (5,.9) -- (proj) ;
+            
+    \end{tikzpicture}
+    
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}{Partially Evaluated Interpreter}
+    \begin{center}
+    
+        \begin{tikzpicture}[scale=.5]
+            \tikzstyle{every path}=[draw, ->]
+            \tikzstyle{circ}=[draw, circle]
+            \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
+                \node [circ] (in) at (2,2) {\D};    
+                \node [circ] (out) at (8,2) {\R};    
+                \node [box] (box) at (5,2) {$\I_\P$}; 
+                \path (in) -- (box);    
+                \path (box) -- (out);    
+        \end{tikzpicture}
+        
+    \end{center}
+
+    
 \end{frame}
 
 
 \begin{frame}{First Equation of Partial Computation}
 
     
-An \textit{interpreter} $\mathcal{I}$ is a program to perform
-specified computations that analyze the meanings of a given program, 
-say $\mathcal{P}$, based upon given data, say $\mathcal{D}$. 
+% An \textit{interpreter} $\mathcal{I}$ is a program to perform
+% specified computations that analyze the meanings of a given program, 
+% say $\mathcal{P}$, based upon given data, say $\mathcal{D}$. 
 
-Thus, 
-running a program by intepreter means performing $\mathcal{I}(\mathcal{P}, \mathcal{D})$
+We recall the previous definitions of \textit{interpreter}
+and \textit{compiler}.
 
-
-A \textit{compiler}, say $\mathcal{C}$, translates a source program
-say $\mathcal{P}$, to an object program $\mathcal{C}(\mathcal{P})$
-
-This produces the following equation:
-
-\[
-    \mathcal{C}(\mathcal{P})(\mathcal{D}) = \mathcal{I}(\mathcal{P},\mathcal{D})
-\]
-
-while $ \mathcal{I}_{\mathcal{P}} =  \alpha(\mathcal{I},\mathcal{P}) $
-
-\begin{equation}
-\mathcal{I}_{\mathcal{P}} =  \mathcal{C}(\mathcal{P})
-\end{equation}
+\begin{eqnarray*}
+    \mathcal{I}(\mathcal{P}, \mathcal{D}) &=& \R \\
+    \C(\P)&=&\P'\\
+    \P' &=& \R \\
+    \mathcal{C}(\mathcal{P})(\mathcal{D}) &=& \mathcal{I}(\mathcal{P},\mathcal{D})\\
+    \mathcal{I}_{\mathcal{P}} &=&  \alpha(\mathcal{I},\mathcal{P}) \\ 
+    \mathcal{I}_{\mathcal{P}} &=&  \mathcal{C}(\mathcal{P})
+\end{eqnarray*}
 
 
 \end{frame}
