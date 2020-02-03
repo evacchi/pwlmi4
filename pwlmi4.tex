@@ -1,4 +1,4 @@
-\documentclass[aspectratio=169]{beamer}
+\documentclass[aspectratio=169,dvipsnames]{beamer}
 \usepackage[utf8]{inputenc}
 \usefonttheme{serif}
 \usetheme{boxes}
@@ -12,6 +12,7 @@
 \usepackage{mathrsfs} % https://www.ctan.org/pkg/mathrsfs
 
 \usepackage{xspace}
+\usepackage{changepage}
 \usepackage[version=0.96]{pgf}
 \usepackage{tikz}
 \usetikzlibrary{fit,shapes.geometric,calc,decorations.pathmorphing}
@@ -214,30 +215,56 @@
     \includegraphics[width=\textwidth]{imgs/fig2.png}
 
 \end{frame}
- 
-\begin{frame}{Projection}
-Consider $f$
 
-    \[
-        f(k,u) \triangleq k \cdot ( k \cdot (k+1) + u + 1) + u\cdot u
-    \]
 
-now let $k=2$, we can write $f_2$ as follows
 
-    \[
-        f_2(u) \triangleq 2 \cdot (7+u) + u\cdot u    
-    \]
 
-because $f(2,u) = f_2(u)$ for any value of $u$, 
+\begin{frame}[fragile]
+\begin{adjustwidth}{-3em}{-4em}
+\tikz[remember picture, overlay] 
+\node at (17,-3) {\includegraphics[height=10cm]{imgs/unix.jpg}};
+
+{ \Large\color{Blue}{This is Currying! I Know This!}}
+
+\begin{minipage}{0.50\textwidth}
+\vspace{15pt}
+\begin{itemize}
+    \item Not exactly!
+    \item In \emph{functional programming} currying is $f_5(u) := f(5,u)$
+    \item In a functional programming language this usually \emph{does not change}
+            the program that implements $f$
+\end{itemize}
+
+\begin{verbatim}
+let f = 
+  (k, u) =>  
+    k * (k * (k+1) + u + 1) + u * u;
+let f2 = (u) => f(2, u);
+\end{verbatim}
+
+\end{minipage}
+\end{adjustwidth}
+\end{frame}
+
+\begin{frame}[fragile]{Projection}
+    
+\begin{verbatim}
+    let f = (k, u) => k * (k * (k+1) + u + 1) + u * u;
+    let f2 = (u) => 2 * (7 + u) + u * u;
+\end{verbatim}
+
+% because $f(2,u) = f_2(u)$ for any value of $u$, 
+
+\centering
 the following equation holds for $f_k$ and $f$
-
 
 
     \begin{equation}
         f_k(u)=f(k,u)
     \end{equation}
 
-And we call it \textit{a projection of $f$ at $k$}
+\centering
+we call this \textit{a projection of $f$ at $k$}
 
 \end{frame}
 
@@ -628,9 +655,9 @@ and \textit{compiler}.
     \item In other words, by finding $\alpha_\alpha$ we can generate
     the partial computation of $f$ at $k$, $f_k$
     
-    \item That is, $\alpha_\alpha$ is a \textit{partial evaluation compiler}.
+    \item That is, $\alpha_\alpha$ is a \emph{partial evaluation compiler}.
 
-    \item However, \textit{the author notes}, at the time of writing, 
+    \item However, \emph{the author notes}, at the time of writing, 
     there is no way to produce $\alpha_\alpha$ from $\alpha(\alpha, \alpha)$
     for practical $\alpha$'s.
     \end{itemize}
@@ -638,8 +665,72 @@ and \textit{compiler}.
 \end{frame}
 
 \begin{frame}{Theory of Partial Computation}
+    \begin{itemize}
+        \item 
+            in the 1930's Turing, Church, Kleene proposed several
+            computational models and clarified the mathematical meanings of mechanical
+            procedure.
+        \item a \emph{computation model} is a sort of programming language
+        \item \emph{e.g.} Turing machines, lambda expressions, and  partial recursive functions.
+        \pause
+        \item 
+            research on \emph{computability}, \emph{i.e.,} \emph{computational power} 
+            of the models, not complexity or efficiency
+        % \item as far as computability was concerned, partial computation is the same as 
+        %     ordinary computation: it did not attract research attention
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    Appears in Kleene $s^m_n$ theorem (parameterization theorem, iteration theorem)
+    for any m, n > 0, there exists a primitive recursive function 
+    $ s_{n}^{m}$ of $m + 1$ arguments that behaves as follows: 
+    for every Gödel number $p$ of a partial computable function with $m + n$ 
+    arguments, and all values of $x_1,\dots,x_m$: 
+    
+    \[
+        \varphi_{s^m_n(p,x_1, \dots, x_m)} 
+            \simeq         
+                \lambda y_1, \dots, y_n \cdot \varphi_p (x_1, \dots, x_m, y_1, \dots, y_n) 
+    \]
+
+
+    $\varphi^{(k)}_x$ recursive function of $k$
+ variables with \emph{G\"odel numer} $x$; 
+ then for every $m\geq 1$ and $n\geq 1$ there exists
+ a \emph{primitive recursive function} $s$ such that for all 
+ $x, y_1, \dots, y_m$
+ 
+ 
+    
+ \[
+    \lambda z_1, \dots, z_n \: \varphi_x^{(m+n)} (y_1, \dots, y_m, z_1, \dots, z_n) = \varphi^{(n)}_{s(x,y_1, \dots, y_m)}
+\]
+
+
+third equation of partial computation ($\alpha_\alpha$)
+is also used in the proof of Kleene's recursion theorem
+
+
 
 \end{frame}
+
+\begin{frame}
+    \begin{itemize}
+        \item Turing machines and partial recursive functions were formulated to describe total computation
+        \item Chruch's lambda expression was based upon partial computation
+        \item \emph{lambda conversion} is partial computation: $f(5,u)$ with $u$ undefined, yields $f_5(u)$
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+    implementation of a projection machine and its application to real world
+    problems started in the 1960's after the programming language LISP
+    began to be widely used
+   
+\end{frame}
+
 
 \begin{frame}
     \begin{enumerate}
