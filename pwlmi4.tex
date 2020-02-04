@@ -15,9 +15,10 @@
 \usepackage{changepage}
 \usepackage[version=0.96]{pgf}
 \usepackage{tikz}
+
 \usetikzlibrary{fit,shapes.geometric,calc,decorations.pathmorphing}
 %Information to be included in the title page:
-\title{\bf\LARGE Papers We Love \color{gray}{Milano} \#4}
+\title{\bf\LARGE Papers We Love \textcolor{gray}{Milano} \#4}
 \subtitle{Partial Computation of Programs\\[5pt] (Futamura 1984)}
 \author{Edoardo Vacchi}
 % \institute{Overleaf}
@@ -33,7 +34,31 @@
  
 \frame{\titlepage}
 
+\begin{frame}
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=.8\textwidth]{imgs/abstract.png}};
+\end{frame}
 
+\begin{frame}
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=.8\textwidth]{imgs/abstract-hl.png}};
+\end{frame}
+
+\begin{frame}
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=.9\textwidth]{imgs/conclusions.png}};
+\end{frame}
+
+\begin{frame}
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=.9\textwidth]{imgs/conclusions-hl.png}};
+\end{frame}
+
+
+
+\begin{frame}[c]
+    \centering \Large \bf \color{Blue} Programs and Programming Languages 
+    \end{frame}
 
 \begin{frame}{Programs}
 
@@ -53,7 +78,7 @@
             \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
                 \node [circ] (d) at (2,2) {\D};    
                 \node [circ] (r) at (8,2) {\R};    
-                \node [box] (p) at (5,2) {\footnotesize$ eval(\P)$}; 
+                \node [box] (p) at (5,2) {\P}; 
                 \path (d) -- (p);    
                 \path (p) -- (r);    
         \end{tikzpicture}
@@ -102,8 +127,8 @@
         \item 
             Let be \P a program that evaluates to \R when given \D;
         \item  
-            A \textit{compiler}, say $\mathcal{C}$, translates a source program
-            $\mathcal{P}$ to an object program $\P'$ that
+            A \textit{compiler} $\mathcal{C}$ translates a \textbf{source program}
+            $\mathcal{P}$ into an \textbf{object program} $\P'$ that
             evaluated over an input \D still produces \R
         
     
@@ -136,8 +161,10 @@
 \end{frame}
 
 \begin{frame}
+    \textit{With a bit of abuse of notation}, let us denote the result 
+    of a program \P evaluated over an input \D with $\P(\D)$. 
     
-    Now, if we indicate $\P'$ with $C(P)$ we can write the following:
+    Now, if we indicate $\P'$ with $\C(\P)$ we can write the following:
 
     \begin{eqnarray*}        
         \P(\D) &=& \R\\
@@ -149,6 +176,13 @@
     \end{eqnarray*}
     
 \end{frame}
+
+
+
+
+\begin{frame}[c]
+    \centering \Large \bf \color{Blue} Partial Evaluation 
+    \end{frame}
 
 % \begin{frame}{Compilers and Interpreters}
 
@@ -268,19 +302,84 @@ we call this \textit{a projection of $f$ at $k$}
 
 \end{frame}
 
-\begin{frame}{Partial Evaluator}
 
-A partial computation procedure may be a computer program $\alpha$
-called \textit{a projection machine}, \textit{partial computer} 
-or \textit{partial evaluator}.
-
-\begin{equation}
-    \alpha(f,k) = f_k
-\end{equation}
-
+\begin{frame}[fragile]
+    \begin{verbatim}
+        function pow(n, k) {
+            if (k <= 0) {
+                return 1;
+            } else {
+                return n * pow(n, k-1);
+            }
+        }
+        function pow5(n) {
+            return pow(n, 5);
+        }
+    \end{verbatim}
 \end{frame}
 
-\begin{frame}{Partial Evaluator (diagram)}
+\begin{frame}[fragile]
+    \begin{verbatim}
+        function pow(n, k) {
+            if (k <= 0) {
+                return 1;
+            } else {
+                return n * pow(n, k-1);
+            }
+        }
+        function pow5(n) {
+            return n * pow(n, 4);
+        }
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{verbatim}
+        function pow(n, k) {
+            if (k <= 0) {
+                return 1;
+            } else {
+                return n * pow(n, k-1);
+            }
+        }
+        function pow5(n) {
+            return n * n * pow(n, 3);
+        }
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{verbatim}
+    function pow(n, k) {
+        if (k <= 0) {
+            return 1;
+        } else {
+            return n * pow(n, k-1);
+        }
+    }
+    function pow5(n) {
+        return n * n * n * n * n;
+    }
+\end{verbatim}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+    \begin{verbatim}
+        function pow(n, k) {
+            if (k <= 0) {
+                return 1;
+            } else {
+                return n * pow(n, k-1);
+            }
+        }
+        let pow5 = alpha(pow, {k:5});
+        // (n) => n * n * n * n * n;
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{Partial Evaluator}
     
 \begin{center}
 
@@ -290,7 +389,7 @@ or \textit{partial evaluator}.
         \tikzstyle{circ}=[draw, circle]
         \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
             \node [circ] (in1) at (2,3) {$k$};    
-            \node [circ] (in2) at (2,1) {$f$};    
+            \node [circ] (in2) at (2,1) {$u$};    
             \node [circ] (out) at (8,2) {$f(k,u)$};    
             \node [box] (box) at (5,2) {$f$};
             
@@ -321,36 +420,59 @@ or \textit{partial evaluator}.
     
 \end{center}
 
+\end{frame}
 
+\begin{frame}{Partial Evaluator}
+
+    A partial computation procedure may be a computer program $\alpha$
+    called \textit{a projection machine}, \textit{partial computer} 
+    or \textit{partial evaluator}.
+    
+    \begin{equation}
+        \alpha(f,k) = f_k
+    \end{equation}
+    
 \end{frame}
 
 
 \begin{frame}{Basic Equation of Partial Evaluation}
 
-Non consider $\alpha_f$, the partial evaluation of $\alpha$ at $f$; then:
+    $\alpha$ is a partial evaluator; but $\alpha$ is itself a program.
 
-\begin{eqnarray*}
-            &\alpha_f(k) &= \alpha(f,k)\\
-            &\alpha(f,k) &= f_k
-\end{eqnarray*}
+    Thus, consider $\alpha_f$, the partial evaluation of $\alpha$ at $f$:
+\begin{eqnarray}
+            \alpha_f(k) &=& \alpha(f,k) \nonumber \\
+            \alpha(f,k) &=& f_k         \nonumber \\
+            \alpha_f(k) &=& f_k 
+\end{eqnarray}
 
-therefore:
-\begin{equation}
-       \alpha_f(k) =f_k 
-\end{equation}
 \end{frame}
 
-\begin{frame}{Automatically generating a compiler}
+\setbeamercovered{transparent} 
+
+\begin{frame}{Examples}
+
+    The paper presents:
 
     \begin{itemize}
-        \item Automatic theorem proving
-        \item Pattern matching
-        \item Syntax analyzer
-        \item Automatically generating a compiler
+        \item<1> Automatic theorem proving
+        \item<1> Pattern matching
+        \item<1> Syntax analyzer
+        \item<1,2> Automatically generating a compiler
     \end{itemize}
     
 \end{frame}
 
+\setbeamercovered{} 
+
+\begin{frame}
+    \begin{itemize}
+        \item Recall: An interpreter is a \textit{program}
+        \item This \emph{program} takes another \textit{program} as input
+        \item and the input data
+        \item evaluates the program on the input and returns the result
+    \end{itemize}
+\end{frame}
 
 
 
@@ -603,13 +725,24 @@ and \textit{compiler}.
 
     \begin{itemize}
     \item Let us call \I-language a language implemented by interpreter \I,  
+    
+    \[
+        \alpha_\alpha(\mathcal{I}) =  \alpha_\mathcal{I}
+    \]
+    
+
+    \item $\alpha_\I$ is then a \I-language compiler,  
     \item let us now substitute $\alpha$ for $\I$ in $\alpha_\alpha(\mathcal{I}) = \alpha_\mathcal{I}$,
     \item which means considering $\alpha$ an interpreter for the $\alpha$-language.
-    \end{itemize}
-
+    
     \[
         \alpha_\alpha(\alpha)=\alpha_\alpha    
     \]
+
+    \item $\alpha_\alpha$ is an $\alpha$-language compiler.
+
+
+    \end{itemize}
 
 
 \end{frame}
@@ -640,18 +773,23 @@ and \textit{compiler}.
     \begin{itemize}
     \item $\alpha_\alpha$ is an $\alpha$-language compiler.
     \item $\alpha_\alpha(f)$ is an object program of $f$; thus:
+    \item What is the $\alpha$-language?
+    \begin{equation}
+        \alpha_\alpha(f)(k) =  f_k
+    \end{equation}
     \end{itemize}
 
-    \begin{equation}
-    \alpha_\alpha(f)(k) =  f_k
-    \end{equation}
-    
-    
+
 \end{frame}
 
 \begin{frame}
 
     \begin{itemize}
+        \item What is the $\alpha$-language?
+        \[
+            \alpha_\alpha(f)(k) =  f_k
+        \]
+
     \item In other words, by finding $\alpha_\alpha$ we can generate
     the partial computation of $f$ at $k$, $f_k$
     
@@ -663,6 +801,13 @@ and \textit{compiler}.
     \end{itemize}
 
 \end{frame}
+
+
+
+
+\begin{frame}[c]
+    \centering \Large \bf \color{Blue} Theory of Partial Computation \\ and \\ Technical Problems 
+    \end{frame}
 
 \begin{frame}{Theory of Partial Computation}
     \begin{itemize}
@@ -681,22 +826,22 @@ and \textit{compiler}.
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    Appears in Kleene $s^m_n$ theorem (parameterization theorem, iteration theorem)
-    for any m, n > 0, there exists a primitive recursive function 
-    $ s_{n}^{m}$ of $m + 1$ arguments that behaves as follows: 
-    for every Gödel number $p$ of a partial computable function with $m + n$ 
-    arguments, and all values of $x_1,\dots,x_m$: 
+\begin{frame}{$s^m_n$ theorem}
+    Appears in Kleene $s^m_n$ theorem (parameterization theorem, iteration theorem). 
+    % for any $m, n > 0$, there exists a primitive recursive function 
+    % $ s_{n}^{m}$ of $m + 1$ arguments that behaves as follows: 
+    % for every Gödel number $p$ of a partial computable function with $m + n$ 
+    % arguments, and all values of $x_1,\dots,x_m$: 
     
-    \[
-        \varphi_{s^m_n(p,x_1, \dots, x_m)} 
-            \simeq         
-                \lambda y_1, \dots, y_n \cdot \varphi_p (x_1, \dots, x_m, y_1, \dots, y_n) 
-    \]
+    % \[
+    %     \varphi_{s^m_n(p,x_1, \dots, x_m)} 
+    %         \simeq         
+    %             \lambda y_1, \dots, y_n \cdot \varphi_p (x_1, \dots, x_m, y_1, \dots, y_n) 
+    % \]
 
 
     $\varphi^{(k)}_x$ recursive function of $k$
- variables with \emph{G\"odel numer} $x$; 
+ variables with \emph{G\"odel number} $x$; 
  then for every $m\geq 1$ and $n\geq 1$ there exists
  a \emph{primitive recursive function} $s$ such that for all 
  $x, y_1, \dots, y_m$
@@ -708,7 +853,7 @@ and \textit{compiler}.
 \]
 
 
-third equation of partial computation ($\alpha_\alpha$)
+The third equation of partial computation ($\alpha_\alpha$)
 is also used in the proof of Kleene's recursion theorem
 
 
@@ -725,14 +870,14 @@ is also used in the proof of Kleene's recursion theorem
 
 
 \begin{frame}
-    implementation of a projection machine and its application to real world
+    Implementation of a projection machine and its application to real world
     problems started in the 1960's after the programming language LISP
     began to be widely used
    
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{Conditions for a Projection Machines}
     \begin{enumerate}
         \item Correctness: 
             Program $\alpha$ must satisfy $\alpha(f,k)(u)=f(k,u)$
@@ -756,16 +901,20 @@ However, author notes, (2) is not \textit{mathematically clear}
         \item Function Definition
     \end{enumerate}
 
+\end{frame}
 
-    \begin{enumerate}
+\begin{frame}{Computation Rule for Recursive Program Schema}
+
+
+    \begin{enumerate} 
         \item Rewriting
         \item Simplification
     \end{enumerate}
 
-    Partial Computation
+    Partial Computation of $f$ at $k$:
 
     \begin{enumerate}
-        \item Rewriting
+        \item Rewriting (when semi-bound)
         \item Simplification
         \item Tabulation
     \end{enumerate}
@@ -774,10 +923,82 @@ However, author notes, (2) is not \textit{mathematically clear}
 
 \end{frame}
 
-\begin{frame}{Technical Problems in Making $\alpha$ Practical}
+\begin{frame}{Rewriting and Simplification}
+    \textbf{Rewriting} is
+    similar to macro expansion and \textit{procedure integration} 
+    in the optimization technique of a compiler. Often combined with
+    \textbf{simplification.}
+
+    \centering
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=.7\textwidth]{imgs/fig6.png}};
+
+    
+\end{frame}
+
+\begin{frame}
+    \centering 
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=.7\textwidth]{imgs/tabulation.png}};
+\end{frame}
+
+
+\begin{frame}[c]
+\centering \Large \bf \color{Blue} GraalVM 
+\end{frame}
+
+\begin{frame}
+    \centering 
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/truffle.png}};
 
 \end{frame}
 
+
+\begin{frame}
+
+    We implement the language semantics only once in a
+simple form: as a \alert<2>{language interpreter} written in a 
+managed high-level host language. Optimized compiled code is
+\alert<2>{derived from the interpreter using partial evaluation}. This
+approach and its obvious benefits were described in 1971
+by Y. Futamura, and is known as the \alert<2>{\textit{first Futamura
+projection}}. To the best of our knowledge no prior high-
+performance language implementation used this approach.
+
+\end{frame}
      
+\begin{frame}
+
+We believe that a simple partial evaluation of a dynamic
+language interpreter cannot lead to high-performance compiled code: 
+if the \alert<2>{complete semantics} for a language operation are included 
+during partial evaluation, the \alert<2>{size of the
+compiled code explodes}; if language operations are not included 
+during partial evaluation and \alert<2>{remain runtime calls},
+\alert<2>{performance is mediocre}. To overcome these inherent problems, 
+we write the interpreter in a style that anticipates and
+embraces partial evaluation. The \alert<2>{interpreter specializes the
+executed instructions}, e.g., collects type information and
+profiling information. The compiler \alert<2>{speculates} that the interpreter 
+state is stable and creates highly optimized 
+and compact machine code. If a speculation turns out to be wrong,
+i.e., was too optimistic, execution transfers back to the interpreter. 
+The interpreter updates the information, so that the
+next partial evaluation is less speculative.
+\end{frame}
+
+\begin{frame}
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/onevm.png}};
+\end{frame}
+
+
+
+
+\begin{frame}[c]
+    \centering \Large \bf \color{Blue} Q\&A 
+    \end{frame}
+
 \end{document}
     
