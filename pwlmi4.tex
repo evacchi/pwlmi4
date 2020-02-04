@@ -11,10 +11,14 @@
 \usepackage[absolute,overlay]{textpos}
 \usepackage{mathrsfs} % https://www.ctan.org/pkg/mathrsfs
 
+\usepackage{fancyvrb}
 \usepackage{xspace}
 \usepackage{changepage}
 \usepackage[version=0.96]{pgf}
 \usepackage{tikz}
+
+\newcommand<>{\highlight}[1]{{\alt#2{\colorbox#2{yellow}{#1}}{#1}}}
+
 
 \usetikzlibrary{fit,shapes.geometric,calc,decorations.pathmorphing}
 %Information to be included in the title page:
@@ -35,21 +39,25 @@
 \frame{\titlepage}
 
 \begin{frame}
+    \centering
     \tikz 
     \node at (current page.center) {\includegraphics[width=.8\textwidth]{imgs/abstract.png}};
 \end{frame}
 
 \begin{frame}
+    \centering
     \tikz 
     \node at (current page.center) {\includegraphics[width=.8\textwidth]{imgs/abstract-hl.png}};
 \end{frame}
 
 \begin{frame}
+    \centering
     \tikz 
     \node at (current page.center) {\includegraphics[width=.9\textwidth]{imgs/conclusions.png}};
 \end{frame}
 
-\begin{frame}
+\begin{frame}    
+    \centering
     \tikz 
     \node at (current page.center) {\includegraphics[width=.9\textwidth]{imgs/conclusions-hl.png}};
 \end{frame}
@@ -221,7 +229,7 @@
 \begin{frame}[fragile]
 \begin{adjustwidth}{-3em}{-4em}
 \tikz[remember picture, overlay] 
-\node at (17,-3) {\includegraphics[height=10cm]{imgs/unix.jpg}};
+\node at (17,-4) {\includegraphics[height=10cm]{imgs/unix.jpg}};
 
 { \Large\color{Blue}{This is Currying! I Know This!}}
 
@@ -231,16 +239,19 @@
     \item Not exactly!
         In \emph{functional programming} \emph{currying} or 
         \emph{partial application} is $f_5(u) := f(5,u)$
-    \item In a functional programming language this usually \emph{does not change}
-            the program that implements $f$
-\end{itemize}
 
 \begin{verbatim}
 let f = 
+ (k, u) =>  
   (k, u) =>  
-    k * (k * (k+1) + u + 1) + u * u;
+ (k, u) =>  
+  k * (k * (k+1) + u + 1) + u * u;
 let f2 = (u) => f(2, u);
 \end{verbatim}
+\item In a functional programming language this usually \emph{does not change}
+            the program that implements $f$
+\end{itemize}
+
 
 \end{minipage}
 \end{adjustwidth}
@@ -282,6 +293,9 @@ we call this \textit{a projection of $f$ at $k$}
             return pow(n, 5);
         }
     \end{verbatim}
+    \tikz[remember picture, overlay] 
+    \node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=1.7cm, text height=.2cm, opacity=.5] 
+            at (3.7,2) {};
 \end{frame}
 
 \begin{frame}[fragile]
@@ -297,6 +311,9 @@ we call this \textit{a projection of $f$ at $k$}
             return n * pow(n, 4);
         }
     \end{verbatim}
+    \tikz[remember picture, overlay] 
+    \node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=2.5cm, text height=.2cm, opacity=.5] 
+    at (3.7,2) {};
 \end{frame}
 
 \begin{frame}[fragile]
@@ -312,21 +329,27 @@ we call this \textit{a projection of $f$ at $k$}
             return n * n * pow(n, 3);
         }
     \end{verbatim}
+    \tikz[remember picture, overlay] 
+    \node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=3.5cm, text height=.2cm, opacity=.5] 
+    at (3.7,2) {};
 \end{frame}
 
 \begin{frame}[fragile]
-\begin{verbatim}
-    function pow(n, k) {
-        if (k <= 0) {
-            return 1;
-        } else {
-            return n * pow(n, k-1);
+    \begin{verbatim}
+        function pow(n, k) {
+            if (k <= 0) {
+                return 1;
+            } else {
+                return n * pow(n, k-1);
+            }
         }
-    }
-    function pow5(n) {
-        return n * n * n * n * n;
-    }
-\end{verbatim}
+        function pow5(n) {
+            return n * n * n * n * n;
+        }
+    \end{verbatim}
+\tikz[remember picture, overlay] 
+\node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=3.5cm, text height=.2cm, opacity=.5] 
+at (3.7,2) {};
 \end{frame}
 
 
@@ -343,6 +366,9 @@ we call this \textit{a projection of $f$ at $k$}
         let pow5 = alpha(pow, {k:5});
         // (n) => n * n * n * n * n;
     \end{verbatim}
+    \tikz[remember picture, overlay] 
+\node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=3.5cm, text height=.2cm, opacity=.5] 
+at (3.7,2) {};
 \end{frame}
 
 \begin{frame}{Partial Evaluator}
@@ -431,13 +457,28 @@ we call this \textit{a projection of $f$ at $k$}
 
 \setbeamercovered{} 
 
-\begin{frame}
+\begin{frame}{Interpreters and Compilers (\textit{reprise})}
     \begin{itemize}
-        \item Recall: An interpreter is a \textit{program}
-        \item This \emph{program} takes another \textit{program} as input
-        \item and the input data
-        \item evaluates the program on the input and returns the result
+        \item An interpreter is a \textit{program}
+        \item This \emph{program} takes another \textit{program} and the data as input
+        \item It evaluates the program on the input and returns the result
+
     \end{itemize}
+    \[
+        \I(\P,\D) = \R    
+    \]
+    \pause
+
+    \begin{itemize}
+        \item A compiler is a \textit{program}
+        \item This \emph{program} takes a \textit{source program} 
+                and returns an \textit{object program}
+        \item The \textit{object program} processes the input and returns the result
+    \end{itemize}
+    \[
+        \C(\P)(\D) = \R    
+    \]
+
 \end{frame}
 
 
