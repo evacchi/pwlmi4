@@ -182,42 +182,7 @@
 
 \begin{frame}[c]
     \centering \Large \bf \color{Blue} Partial Evaluation 
-    \end{frame}
-
-% \begin{frame}{Compilers and Interpreters}
-
-%     \begin{itemize}
-%         \item 
-%             An \textit{interpreter} $\mathcal{I}$ is a program to perform
-%             specified computations that analyze the meanings of a given program, 
-%             say $\mathcal{P}$, based upon given data, say $\mathcal{D}$.
-
-%         \item 
-%             A \textit{compiler}, say $\mathcal{C}$, translates a source program
-%             say $\mathcal{P}$, to an object program $\mathcal{C}(\mathcal{P})$
-        
-    
-    
-%     \end{itemize}
-    
-%     Thus, 
-%     running a program by intepreter means performing $\mathcal{I}(\mathcal{P}, \mathcal{D})$
-    
-    
-%     This produces the following equation:
-    
-%     \[
-%         \mathcal{C}(\mathcal{P})(\mathcal{D}) = \mathcal{I}(\mathcal{P},\mathcal{D})
-%     \]
-    
-%     while $ \mathcal{I}_{\mathcal{P}} =  \alpha(\mathcal{I},\mathcal{P}) $
-    
-%     \begin{equation}
-%     \mathcal{I}_{\mathcal{P}} =  \mathcal{C}(\mathcal{P})
-%     \end{equation}
-    
-    
-% \end{frame}
+\end{frame}
 
 \begin{frame}{Partial Evaluation (intuition)}
     Let us have a computation $f$ of two parameters $k$, $u$
@@ -264,7 +229,8 @@
 \vspace{15pt}
 \begin{itemize}
     \item Not exactly!
-    \item In \emph{functional programming} currying is $f_5(u) := f(5,u)$
+        In \emph{functional programming} \emph{currying} or 
+        \emph{partial application} is $f_5(u) := f(5,u)$
     \item In a functional programming language this usually \emph{does not change}
             the program that implements $f$
 \end{itemize}
