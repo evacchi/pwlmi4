@@ -7,6 +7,7 @@
 \addtobeamertemplate{frametitle}{\vskip1cm}{}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{itemize item}[circle]
+\setbeamercolor{alerted text}{fg=black}
 
 %% absolute positioning
 \usepackage[absolute,overlay]{textpos}
@@ -38,6 +39,65 @@
 \begin{document}
  
 \frame{\titlepage}
+
+
+
+\begin{frame}[c]
+    \centering \Large \bf \color{Blue} GraalVM 
+    \end{frame}
+    
+    \begin{frame}
+        \centering 
+        \tikz 
+        \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/truffle.png}};
+    
+    \end{frame}
+    
+
+    \begin{frame}
+\textcolor<2>{lightgray}{
+        Most high-performance dynamic language virtual machines
+\alert<2>{duplicate language semantics in the interpreter, compiler,
+and runtime system}. This violates the principle to not repeat
+yourself. In contrast, we define languages solely by \alert<2>{writing
+an interpreter}. The interpreter performs specializations, e.g.,
+augments the interpreted program with type information and
+profiling information. Compiled code is derived automatically 
+using \alert<2>{partial evaluation} while incorporating these specializations. 
+\alert<2>{This makes partial evaluation practical in the
+context of dynamic languages}: it reduces the size of the
+compiled code while still compiling all parts of an operation
+that are relevant for a particular program. When a speculation fails, 
+execution transfers back to the interpreter, the program re-specializes 
+in the interpreter, and later partial evaluation again transforms 
+the new state of the interpreter to compiled code. 
+}
+% We evaluate our approach by comparing our
+% implementations of JavaScript, Ruby, and R with best-in-class 
+% specialized production implementations. Our general-purpose 
+% compilation system is competitive with production
+% systems even when they have been heavily optimized for the
+% one language they support. For our set of benchmarks, our
+% speedup relative to the V8 JavaScript VM is 0.83x, relative
+% to JRuby is 3.8x, and relative to GNU R is 5x.
+    \end{frame}
+
+
+    \begin{frame}
+        \textcolor<2>{lightgray}{\color<3>{white}
+        We implement the language semantics only once in a
+    simple form: as a \alert<2>{language interpreter} written in a 
+    managed high-level host language.     \alert<2>{Optimized compiled code is
+derived from the interpreter using partial evaluation}. This
+    approach and its obvious benefits were described in 1971
+    by Y. Futamura, and is known as the \textcolor<2->{red}{\textit{first Futamura
+    projection}}. To the best of our knowledge no prior high-performance 
+    language implementation used this approach.
+        }
+    \end{frame}
+    
+
+    
 
 \begin{frame}
     \tikz[overlay]
@@ -192,6 +252,25 @@
         
     \end{center}
 
+\end{frame}
+
+\begin{frame}[fragile]
+\tikz[overlay]
+\node[text width=.5\textwidth] at (0,-3) {
+    \includegraphics[width=18cm]{imgs/wargames-dimmed.jpg}
+};
+\begin{verbatim}
+$ cat example.ml 
+print_string "Hello world!\n"
+
+$ ocaml example.ml 
+Hello world!
+
+$ ocamlc example.ml 
+
+$ ./a.out 
+Hello world!
+\end{verbatim}
 \end{frame}
 
 \begin{frame}
@@ -845,7 +924,7 @@ and \textit{compiler}.
     \item That is, $\alpha_\alpha$ is a \emph{partial evaluation compiler}.
 
     \item However, \emph{the author notes}, at the time of writing, 
-    there is no way to produce $\alpha_\alpha$ from $\alpha(\alpha, \alpha)$
+    \textbf{there is no way to produce} $\alpha_\alpha$ from $\alpha(\alpha, \alpha)$
     for practical $\alpha$'s.
     \end{itemize}
 
@@ -1005,7 +1084,7 @@ However, author notes, (2) is not \textit{mathematically clear}
 
 
 \begin{frame}
-
+    \textcolor<2>{lightgray}{
     We implement the language semantics only once in a
 simple form: as a \alert<2>{language interpreter} written in a 
 managed high-level host language. Optimized compiled code is
@@ -1014,11 +1093,11 @@ approach and its obvious benefits were described in 1971
 by Y. Futamura, and is known as the \alert<2>{\textit{first Futamura
 projection}}. To the best of our knowledge no prior high-
 performance language implementation used this approach.
-
+    }
 \end{frame}
      
 \begin{frame}
-
+\textcolor<2>{lightgray}{
 We believe that a simple partial evaluation of a dynamic
 language interpreter cannot lead to high-performance compiled code: 
 if the \alert<2>{complete semantics} for a language operation are included 
@@ -1035,6 +1114,7 @@ and compact machine code. If a speculation turns out to be wrong,
 i.e., was too optimistic, execution transfers back to the interpreter. 
 The interpreter updates the information, so that the
 next partial evaluation is less speculative.
+}
 \end{frame}
 
 \begin{frame}
@@ -1043,6 +1123,10 @@ next partial evaluation is less speculative.
 \end{frame}
 
 
+\begin{frame}
+    \tikz[overlay]
+    \node at (6,-.5) {\includegraphics[width=33cm]{imgs/futamura.png}};
+\end{frame}
 
 
 \begin{frame}[c]
