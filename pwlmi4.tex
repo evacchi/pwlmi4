@@ -354,7 +354,7 @@ let f =
   (k, u) =>  
  (k, u) =>  
   k * (k * (k+1) + u + 1) + u * u;
-let f2 = (u) => f(2, u);
+let f5 = (u) => f(5, u);
 \end{verbatim}
 \item In a functional programming language this usually \emph{does not change}
             the program that implements $f$
@@ -369,7 +369,7 @@ let f2 = (u) => f(2, u);
     
 \begin{verbatim}
     let f = (k, u) => k * (k * (k+1) + u + 1) + u * u;
-    let f2 = (u) => 2 * (7 + u) + u * u;
+    let f2 = (u) => 5 * (31 + u) + u * u;
 \end{verbatim}
 
 % because $f(2,u) = f_2(u)$ for any value of $u$, 
