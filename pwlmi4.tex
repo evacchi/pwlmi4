@@ -6,6 +6,7 @@
 \setbeamersize{text margin right=20mm, text margin left=20mm} 
 \addtobeamertemplate{frametitle}{\vskip1cm}{}
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}[circle]
 
 %% absolute positioning
 \usepackage[absolute,overlay]{textpos}
@@ -39,6 +40,11 @@
 \frame{\titlepage}
 
 \begin{frame}
+    \tikz[overlay]
+    \node at (6,-.5) {\includegraphics[width=33cm]{imgs/futamura.png}};
+\end{frame}
+
+\begin{frame}
     \centering
     \tikz 
     \node at (current page.center) {\includegraphics[width=.8\textwidth]{imgs/abstract.png}};
@@ -68,7 +74,26 @@
     \centering \Large \bf \color{Blue} Programs and Programming Languages 
     \end{frame}
 
-\begin{frame}{Programs}
+\begin{frame}
+    \tikz[overlay]
+    \node[text width=.5\textwidth] at (1.3,-.5) {
+    {\hspace{10pt}\Large \color{Blue} {Programs} }
+
+    \begin{itemize}
+        \item We call a \textit{program} a \textit{sequence of instructions}
+         that can be \textit{executed} by a \textit{machine}.
+         \item The \textit{machine} may be a \textit{virtual} machine or a \textit{physical} machine
+        \item In the following, when we say that a \textit{program} is \textit{evaluated},
+        we assume that there exists some \textit{machine} that is able to execute these instructions.
+    \end{itemize}
+    };
+    \tikz[overlay]
+    \node[text width=.5\textwidth] at (7.5,-.5) {
+        \includegraphics[width=10cm]{imgs/hackerman.jpg}
+    };
+\end{frame}
+
+\begin{frame}{Program Evaluation}
 
     \begin{itemize}
         \item Consider a program \P, with input data \D;
@@ -92,6 +117,7 @@
         \end{tikzpicture}
         
     \end{center}
+
 
     
 \end{frame}
@@ -169,11 +195,14 @@
 \end{frame}
 
 \begin{frame}
-    \textit{With a bit of abuse of notation}, let us denote the result 
-    of a program \P evaluated over an input \D with $\P(\D)$. 
-    
-    Now, if we indicate $\P'$ with $\C(\P)$ we can write the following:
-
+    \begin{itemize}
+    \item \textit{With a bit of abuse of notation}, let us denote the result 
+    of a program \P evaluated over an input \D with \[
+        \P(\D)
+        \] 
+    \pause
+    \item Now, if we indicate $\P'$ with $\C(\P)$ we can write the following:
+    \end{itemize}
     \begin{eqnarray*}        
         \P(\D) &=& \R\\
         \C(\P) &=& \P'\\
@@ -193,7 +222,7 @@
 \end{frame}
 
 \begin{frame}{Partial Evaluation (intuition)}
-    Let us have a computation $f$ of two parameters $k$, $u$
+\begin{center}Let us have a computation $f$ of two parameters $k$, $u$\end{center}
     \[
         f(k,u)
     \]
@@ -652,6 +681,12 @@ and \textit{compiler}.
 \end{frame}
 
 
+\begin{frame}
+    \tikz[overlay]
+    \node at (5,0) {\includegraphics[width=18cm]{imgs/inception.jpg}};
+\end{frame}
+
+
 
 \begin{frame}{Partial Evaluation of a Partial Evaluator}
 
@@ -727,6 +762,13 @@ and \textit{compiler}.
             which generates a compiler $\alpha_\I$ from an interpreter $\I$
     \end{itemize}
 \end{frame}
+
+\begin{frame}
+    \centering
+    \tikz
+    \node at (0,0) {\includegraphics[width=9cm]{imgs/escher.jpg}};
+\end{frame}
+
 
 \begin{frame}{Partial Evaluation of a Partially-Evaluated Evaluator}
 
