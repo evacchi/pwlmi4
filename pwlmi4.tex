@@ -22,7 +22,7 @@
 \newcommand<>{\highlight}[1]{{\alt#2{\colorbox#2{yellow}{#1}}{#1}}}
 
 
-\usetikzlibrary{fit,shapes.geometric,calc,decorations.pathmorphing}
+\usetikzlibrary{fit,positioning,shapes.geometric,calc,decorations.pathmorphing}
 %Information to be included in the title page:
 \title{\bf\LARGE Papers We Love \textcolor{gray}{Milano} \#4}
 \subtitle{Partial Computation of Programs\\[5pt] (Futamura 1984)}
@@ -182,6 +182,31 @@ derived from the interpreter using partial evaluation}. This
     
 \end{frame}
 
+\begin{frame}
+
+    \[
+        f(k,u) = k+u
+    \]
+
+    \begin{center}
+    
+        \begin{tikzpicture}
+            \tikzstyle{every path}=[draw, ->]
+            \tikzstyle{circ}=[draw, circle, text centered]
+            \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
+                \node [circ, text width=1cm] (d) at (2,2) {$3,4$};    
+                \node [circ, text width=1cm] (r) at (8,2) {$7$};    
+                \node [box] (p) at (5,2) {$k+u$}; 
+                \path (d) -- (p);    
+                \path (p) -- (r);    
+        \end{tikzpicture}
+        
+    \end{center}
+
+
+
+\end{frame}
+
 \begin{frame}{Interpreters}
 
     \begin{itemize}
@@ -209,6 +234,42 @@ derived from the interpreter using partial evaluation}. This
     
 \end{center}
 
+
+\end{frame}
+
+\begin{frame}
+    \begin{tikzpicture}
+        \tikzstyle{every path}=[draw, ->]
+        \tikzstyle{circ}=[draw, circle]
+        \tikzstyle{box}=[inner sep=10pt, draw, rectangle, align=left]
+        \node[text width=3cm] (p)  at (2,2) {
+            $f(k,u) = k+u$
+        };
+        \node[box, text width=3cm] (p)  at (2,0) {
+            \texttt{add x y}
+        };
+          
+        \node [box] (i) at (7,0) {
+            $\textbf{push}(\D)$\\
+            $\textbf{while}(\textrm{true})$ \\
+
+            $\quad \textrm{instr} \gets \textit{fetch-next}(\P)$ \\
+            
+            \quad \textbf{switch}({instr.op}) \\
+            \quad \quad \textbf{case} \texttt{'add'}: \\
+            \quad \quad \quad 
+                $\texttt{x}\gets \textbf{pop}()$\\
+            \quad \quad \quad 
+                $\texttt{y}\gets \textbf{pop}()$ \\
+                
+            \quad \quad \quad 
+                $\textrm{result} \gets x+y$ \\
+            \quad \quad \quad 
+                $\textbf{push}(\textrm{result})$ \\
+            \quad \quad \textbf{case} \dots \\
+
+        };
+\end{tikzpicture}
 
 \end{frame}
 
@@ -252,6 +313,14 @@ derived from the interpreter using partial evaluation}. This
         
     \end{center}
 
+\end{frame}
+
+\begin{frame}[fragile,c]
+    \begin{verbatim}
+    sum:
+        lea     eax, [rdi+rsi]
+        ret
+    \end{verbatim}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -350,8 +419,6 @@ Hello world!
 
 \begin{verbatim}
 let f = 
- (k, u) =>  
-  (k, u) =>  
  (k, u) =>  
   k * (k * (k+1) + u + 1) + u * u;
 let f5 = (u) => f(5, u);
@@ -477,6 +544,19 @@ at (3.7,2) {};
     \tikz[remember picture, overlay] 
 \node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=3.5cm, text height=.2cm, opacity=.5] 
 at (3.7,2) {};
+\end{frame}
+
+\begin{frame}{Rewriting and Simplification}
+    \textbf{Rewriting} is
+    similar to macro expansion and \textit{procedure integration} 
+    in the optimization technique of a compiler. Often combined with
+    \textbf{simplification.}
+
+    \centering
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=.7\textwidth]{imgs/fig6.png}};
+
+    
 \end{frame}
 
 \begin{frame}{Partial Evaluator}
@@ -682,6 +762,39 @@ and \textit{compiler}.
 
 \end{frame}
 
+\begin{frame}
+
+            $\textbf{push}(\D)$\\
+            \textcolor<2->{white}{$\textbf{while}(\textrm{true})$} \\
+
+            \textcolor<2->{white}{$\quad \textrm{instr} \gets \textit{fetch-next}(\P)$} \\
+            
+            \textcolor<2->{white}{\quad \textbf{switch}({instr.op})} \\
+            \quad \quad \textbf{case} \texttt{'add'}: \\
+            \quad \quad \quad 
+                $\texttt{x}\gets \textbf{pop}()$\\
+            \quad \quad \quad 
+                $\texttt{y}\gets \textbf{pop}()$ \\
+                
+            \quad \quad \quad 
+                $\textrm{result} \gets x+y$ \\
+            \quad \quad \quad 
+                $\textbf{push}(\textrm{result})$ \\
+            \textcolor<2->{white}{\quad \quad \textbf{case} \dots} \\
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile,c]
+    \begin{verbatim}
+    sum:
+        lea     eax, [rdi+rsi]
+        ret
+    \end{verbatim}
+\end{frame}
+
 \begin{frame}{Partial Evaluation of an Interpreter}
 
     \begin{center}
@@ -726,6 +839,8 @@ and \textit{compiler}.
     \end{frame}
 
 
+    
+
 \begin{frame}{Second Equation of Partial Computation (Second Projection)}
 
     
@@ -737,8 +852,8 @@ and \textit{compiler}.
             \tikzstyle{circ}=[draw, circle]
             \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
                 \node [circ] (in) at (2,2) {\P};    
-                \node [circ] (out) at (8,2) {$\I_\P$};    
-                \node [box] (box) at (5,2) {$\alpha_\I$}; 
+                \node [circ] (out) at (8,2) {$\only<1>{\I_\P}\only<2->{\C(\P)}$};    
+                \node [box] (box) at (5,2) {$\only<1-3>{\alpha_\I}\only<4>{\C}$}; 
                 \path (in) -- (box);    
                 \path (box) -- (out);    
         \end{tikzpicture}
@@ -751,10 +866,10 @@ and \textit{compiler}.
     \end{equation}
     
     \begin{itemize}
-        \item but $\I_\P$, evaluated on \D gives \R; then
-        \item $\I_\P$ is an object program ($\P'$)
-        \item $\alpha_\I$ transforms a source program $\P$ to $\I_\P$
-        \item then $\alpha_\I$ is \textit{a compiler}
+        \item but $\I_\P$, evaluated on \D gives \R 
+        \item<2-> then $\I_\P$ is an object program ($\P'=\C(\P)$)
+        \item<3-> $\alpha_\I$ transforms a source program $\P$ to $\I_\P$ (\textit{i.e.,} $\C(\P)$)
+        \item<4-> then $\alpha_\I$ is \textit{a compiler}
     \end{itemize}
     
 \end{frame}
@@ -765,6 +880,47 @@ and \textit{compiler}.
     \node at (5,0) {\includegraphics[width=18cm]{imgs/inception.jpg}};
 \end{frame}
 
+
+\begin{frame}{Partial Evaluation of a Partial Evaluator}
+
+    \begin{center}
+    
+        \begin{tikzpicture}
+            \tikzstyle{every path}=[draw, ->]
+            \tikzstyle{envel}=[shape=ellipse, draw]
+            \tikzstyle{circ}=[draw, circle]
+            \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
+                \node [circ] (in1) at (2,3) {\I};    
+                \node [circ] (in2) at (2,1) {\P};    
+                \node [circ] (out) at (8,2) {$\I_\P$};    
+                \node [box] (box) at (5,2) {$\alpha$};
+                
+                
+                \path (in1) -- (box);    
+                \path (in2) -- (box);    
+                \path (box) -- (out);
+    
+    
+                \begin{scope}[shift={(in1))},x={(box)},y={($(in1)!1!90:(box)$)}]
+                    \draw[red] (.5,0) ellipse (.8 and .5);
+                \end{scope}
+    
+    
+                \node[box, text width=2cm](proj) at (5,-.5) {$\alpha_\I=\C$};
+    
+                \draw[
+                    line join=round,
+                    decorate, decoration={
+                    zigzag,
+                    segment length=4,
+                    amplitude=1,post=lineto,
+                    post length=2pt}] (5,.9) -- (proj) node [midway, label=right:{$\alpha$}] {} ;
+                
+        \end{tikzpicture}
+        
+    \end{center}
+    
+    \end{frame}
 
 
 \begin{frame}{Partial Evaluation of a Partial Evaluator}
@@ -779,7 +935,7 @@ and \textit{compiler}.
             \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
                 \node [circ] (in1) at (2,3) {$\alpha$};    
                 \node [circ] (in2) at (2,1) {\I};    
-                \node [circ] (out) at (8,2) {$\alpha_\I$};    
+                \node [circ] (out) at (8,2) {$\alpha_\I=\C$};    
                 \node [box] (box) at (5,2) {$\alpha$};
                 
                 
@@ -821,7 +977,7 @@ and \textit{compiler}.
             \tikzstyle{circ}=[draw, circle]
             \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
                 \node [circ] (in) at (2,2) {\I};    
-                \node [circ] (out) at (8,2) {$\alpha_\I$};    
+                \node [circ] (out) at (8,2) {$\alpha_\I=\C$};    
                 \node [box] (box) at (5,2) {$\alpha_\alpha$}; 
                 \path (in) -- (box);    
                 \path (box) -- (out);    
@@ -834,7 +990,7 @@ and \textit{compiler}.
     \end{equation}
     
     \begin{itemize}
-     \item $\alpha_\alpha$ is a program, that given \I, returns $\alpha_\I$
+     \item $\alpha_\alpha$ is a program that given \I, returns $\alpha_\I=\C$
      \item $\alpha_\I$ transforms a source program to an object program
      \item $\alpha_\I$ is a compiler
      \item $\alpha_\alpha$ is a \textit{compiler-compiler} (a \textit{compiler generator})
