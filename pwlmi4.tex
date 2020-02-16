@@ -43,6 +43,24 @@
 
 
 \begin{frame}
+    \centering
+    \includegraphics[width=\textwidth]{imgs/py1.png}
+\end{frame}
+    
+\begin{frame}
+    \textcolor<2>{lightgray}{
+    The performance of many dynamic language implementations suffers 
+    from high allocation rates and runtime type checks. This makes
+    dynamic languages less applicable to purely algorithmic problems,
+    despite their growing popularity. In this paper we present a simple
+    \alert<2>{compiler optimization based on online partial evaluation} to remove
+    object allocations and runtime type checks in the context of a tracing JIT. 
+    We evaluate the optimization using a Python VM and find
+    that it gives good results for all our (real-life) benchmarks.}
+
+\end{frame}
+
+\begin{frame}
     \tikz[overlay]
     \node at (6,-.5) {\includegraphics[width=15cm]{imgs/graalvm1.pdf}};
     \tikz[overlay]
@@ -55,6 +73,8 @@
     \tikz[overlay]
     \node at (6,-5) {\footnotesize https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere};
 \end{frame}
+
+
 
 \begin{frame}
     \centering
@@ -578,9 +598,9 @@ In compiler implementation this is sometimes called \textit{inlining}
 
 \begin{frame}{Rewriting and Simplification}
     \begin{itemize}
-    \item In a \textit{recursive program schema} 
-    (\textit{e.g.,} lambda calculus, partial recursive functions) 
-    these are called \textit{rewriting} and \textit{simplification}.
+    % \item In a \textit{recursive program schema} 
+    % (\textit{e.g.,} lambda calculus, partial recursive functions) 
+    % these are called \textit{rewriting} and \textit{simplification}.
 
     \item \textbf{Rewriting} is
     similar to macro expansion and \textit{procedure integration} 
@@ -840,7 +860,7 @@ and \textit{compiler}.
 
             \textcolor<2->{white}{$\quad \textrm{instr} \gets \textit{fetch-next}(\P)$} \\
             
-            \textcolor<2->{white}{\quad \textbf{switch}({instr.op})} \\
+            \textcolor<2->{white}{\quad \textbf{switch}({instr.op})}: \\
             \quad \quad \textbf{case} \texttt{'add'}: \\
             \quad \quad \quad 
                 $\texttt{x}\gets \textbf{pop}()$\\
