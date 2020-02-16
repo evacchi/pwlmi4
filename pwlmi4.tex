@@ -730,7 +730,6 @@ at (3.7,2) {};
     \[
         \I(\P,\D) %= \R    
     \]
-    \pause
 
     \begin{itemize}
         \item A compiler is a \textit{program}
@@ -907,7 +906,7 @@ and \textit{compiler}.
 
 \end{frame}
 
-\begin{frame}{Partial Evaluation of \only<1>{an Interpreter}\only<2->{the Partial Evaluation of an Interpreter}}
+\begin{frame}{\uncover<2>{Partial Evaluation of the } \\ Partial Evaluation of an Interpreter}
 
     \begin{center}
     
@@ -993,7 +992,7 @@ and \textit{compiler}.
 \end{frame}
 
 
-\begin{frame}{Partial Evaluation of the Partial Evaluation of an Interpreter}
+\begin{frame}{Partial Evaluation of the \\Partial Evaluation of an Interpreter}
 
     \begin{center}
     
@@ -1035,7 +1034,7 @@ and \textit{compiler}.
     \end{frame}
 
 
-\begin{frame}{\only<2->{Partial Evaluation of the} Partial Evaluation of the Partial Evaluation of an Interpreter}
+\begin{frame}{\uncover<3->{Partial Evaluation of the \\} Partial Evaluation of the \\ Partial Evaluation of an Interpreter}
 
 
     \begin{center}
@@ -1169,10 +1168,10 @@ and \textit{compiler}.
 
     \begin{itemize}
     \item $\alpha_\alpha$ is an $\alpha$-language compiler.
-    \item $\alpha_\alpha(f)$ is an object program of $f$; thus:
+    \item $\alpha_\alpha(\I)=\alpha_\I$ is an object program of $\I$; thus:
     \item What is the $\alpha$-language?
     \begin{equation}
-        \alpha_\alpha(f)(k) =  f_k
+        \alpha_\alpha(\I)(\P) =  \I_\P
     \end{equation}
     \end{itemize}
 
@@ -1183,14 +1182,15 @@ and \textit{compiler}.
 
     \begin{itemize}
         \item What is the $\alpha$-language?
-        \[
-            \alpha_\alpha(f)(k) =  f_k
-        \]
+        \begin{eqnarray*}
+            \alpha_\alpha(\I)(\P) &=&  \I_\P \\
+            \alpha_\alpha(f)(k)   &=&  f_k
+        \end{eqnarray*}
 
     \item In other words, by finding $\alpha_\alpha$ we can generate
-    the partial computation of $f$ at $k$, $f_k$
+    the \textbf{partial computation} of $f$ at $k$, $f_k$
     
-    \item That is, $\alpha_\alpha$ is a \emph{partial evaluation compiler}.
+    \item That is, $\alpha_\alpha$ is a \textbf{partial evaluation compiler}.
 
     \item However, \emph{the author notes}, at the time of writing, 
     \textbf{there is no way to produce} $\alpha_\alpha$ from $\alpha(\alpha, \alpha)$
@@ -1340,6 +1340,29 @@ However, author notes, (2) is not \textit{mathematically clear}
 \end{frame}
 
 
+
+\begin{frame}
+    \centering 
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/notation-fact.png}};
+\end{frame}
+
+
+\begin{frame}
+    \centering 
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/notation.png}};
+\end{frame}
+
+
+\begin{frame}
+    \centering 
+    \tikz 
+    \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/notation-concl.png}};
+\end{frame}
+
+
+
 \begin{frame}[c]
 \centering \Large \bf \color{Blue} GraalVM 
 \end{frame}
@@ -1398,9 +1421,23 @@ next partial evaluation is less speculative.
 \end{frame}
 
 
-\begin{frame}[c]
-    \centering \LARGE \bf \color{Blue} Q\&A 
-    \end{frame}
+\begin{frame}[c]{References}
+    \begin{itemize}
+        \item 
+            W\"urthinger et al. 2017
+        \item 
+            \v Selajev, O. 2018 
+            \href{https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere}{GraalVM: Run Programs Faster Anywhere}
+            \textit{GOTO Berlin 2018}
+
+        \item 
+            Stuart, T. 2013
+            \href{https://codon.com/compilers-for-free}{Compilers for Free}
+            \textit{RubyConf 2013}
+
+    \end{itemize}
+
+\end{frame}
 
 \end{document}
     
