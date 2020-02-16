@@ -25,7 +25,7 @@
 \usetikzlibrary{fit,positioning,shapes.geometric,calc,decorations.pathmorphing}
 %Information to be included in the title page:
 \title{\bf\LARGE Papers We Love \textcolor{gray}{Milano} \#4}
-\subtitle{Partial Computation of Programs\\[5pt] (Futamura 1984)}
+\subtitle{Partial Computation of Programs\\[5pt] (Futamura 1983)}
 \author{Edoardo Vacchi}
 % \institute{Overleaf}
 \date{19th February 2020}
@@ -42,16 +42,24 @@
 
 
 
-\begin{frame}[c]
-    \centering \Large \bf \color{Blue} GraalVM 
-    \end{frame}
-    
-    \begin{frame}
-        \centering 
-        \tikz 
-        \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/truffle.png}};
-    
-    \end{frame}
+\begin{frame}
+    \tikz[overlay]
+    \node at (6,-.5) {\includegraphics[width=15cm]{imgs/graalvm1.pdf}};
+    \tikz[overlay]
+    \node at (6,-5) {\footnotesize https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere};
+\end{frame}
+
+\begin{frame}
+    \tikz[overlay]
+    \node at (6,-.5) {\includegraphics[width=15cm]{imgs/graalvm2.pdf}};
+    \tikz[overlay]
+    \node at (6,-5) {\footnotesize https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere};
+\end{frame}
+
+\begin{frame}
+    \centering
+    \includegraphics[width=\textwidth]{imgs/truffle.png}
+\end{frame}
     
 
     \begin{frame}
@@ -101,7 +109,7 @@ derived from the interpreter using partial evaluation}. This
 
 \begin{frame}
     \tikz[overlay]
-    \node at (6,-.5) {\includegraphics[width=33cm]{imgs/futamura.png}};
+    \node at (6,-.5) {\includegraphics[width=19cm]{imgs/futamura.png}};
 \end{frame}
 
 \begin{frame}
@@ -235,27 +243,39 @@ derived from the interpreter using partial evaluation}. This
 \end{center}
 
 
+\begin{itemize}
+    \item We denote this with $\I(\P,\D)$ 
+\end{itemize}
+
 \end{frame}
 
-\begin{frame}
+\begin{frame}\centering
     \begin{tikzpicture}
         \tikzstyle{every path}=[draw, ->]
         \tikzstyle{circ}=[draw, circle]
         \tikzstyle{box}=[inner sep=10pt, draw, rectangle, align=left]
-        \node[text width=3cm] (p)  at (2,2) {
+        \node[text width=3cm] (p)  at (3,2) {
             $f(k,u) = k+u$
         };
-        \node[box, text width=3cm] (p)  at (2,0) {
+        \node[text width=4cm] (p)  at (3,0) {
+            \textbf{Instructions}
+
             \texttt{add x y}
+
+            \texttt{sub x y}
+            
+            \texttt{mul x y}
+            
+            \texttt{...}
         };
-          
-        \node [box] (i) at (7,0) {
+        
+        \node [inner sep=8pt, align=left] (i) at (10,0) {
             $\textbf{push}(\D)$\\
             $\textbf{while}(\textrm{true})$ \\
 
             $\quad \textrm{instr} \gets \textit{fetch-next}(\P)$ \\
             
-            \quad \textbf{switch}({instr.op}) \\
+            \quad \textbf{switch}({instr.op}): \\
             \quad \quad \textbf{case} \texttt{'add'}: \\
             \quad \quad \quad 
                 $\texttt{x}\gets \textbf{pop}()$\\
@@ -283,14 +303,12 @@ derived from the interpreter using partial evaluation}. This
             Let be \P a program that evaluates to \R when given \D;
         \item  
             A \textit{compiler} $\mathcal{C}$ translates a \textbf{source program}
-            $\mathcal{P}$ into an \textbf{object program} $\P'$ that
+            $\mathcal{P}$ into an \textbf{object program} $\C(\P)$ that
             evaluated over an input \D still produces \R
         
     
     
     \end{itemize}
-
-
 
 
     \begin{center}
@@ -301,8 +319,8 @@ derived from the interpreter using partial evaluation}. This
             \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
                 \node [circ] (p)   at (2,2) {\P};    
                 \node [box]  (c)   at (5,2) {\C}; 
-                \node [circ] (cp)  at (8,2) {$\P'$};    
-                \node [box]  (cp2) at (5,0) {$\P'$};    
+                \node [circ] (cp)  at (8,2) {\tiny $\C(\P)$};    
+                \node [box]  (cp2) at (5,0) {\small $\C(\P)$};    
                 \node [circ] (d)   at (2,0) {\D};    
                 \node [circ] (r)   at (8,0) {\R};    
                 \path (p) -- (c);    
@@ -312,6 +330,10 @@ derived from the interpreter using partial evaluation}. This
         \end{tikzpicture}
         
     \end{center}
+
+\begin{itemize}
+    \item We denote this with $\C(\P)(\D)$
+\end{itemize}
 
 \end{frame}
 
@@ -342,27 +364,35 @@ Hello world!
 \end{verbatim}
 \end{frame}
 
-\begin{frame}
-    \begin{itemize}
-    \item \textit{With a bit of abuse of notation}, let us denote the result 
-    of a program \P evaluated over an input \D with \[
-        \P(\D)
-        \] 
-    \pause
-    \item Now, if we indicate $\P'$ with $\C(\P)$ we can write the following:
-    \end{itemize}
-    \begin{eqnarray*}        
-        \P(\D) &=& \R\\
-        \C(\P) &=& \P'\\
-        \P'(\D) &=& \R\\
-        \C(\P)(\D) &=& \R\\
-        \I(\P, \D) &=& \R\\
-        \C(\P)(\D) &=& \I(\P, \D) \\
-    \end{eqnarray*}
+% \begin{frame}
+%     \begin{itemize}
+%     \item \textit{With a bit of abuse of notation}, let us denote the result 
+%     of a program \P evaluated over an input \D with \[
+%         \P(\D)
+%         \] 
+%     \pause
+%     \item Now, if we indicate $\P'$ with $\C(\P)$ we can write the following:
+%     \end{itemize}
+%     \begin{eqnarray*}        
+%         \P(\D) &=& \R\\
+%         \C(\P) &=& \P'\\
+%         \P'(\D) &=& \R\\
+%         \C(\P)(\D) &=& \R\\
+%         \I(\P, \D) &=& \R\\
+%         \C(\P)(\D) &=& \I(\P, \D) \\
+%     \end{eqnarray*}
     
+% \end{frame}
+
+\begin{frame}[c]
+
+    \begin{center}
+        \Large \[
+            \C(\P)(\D) = \I(\P, \D) 
+        \]
+    \end{center}
+
 \end{frame}
-
-
 
 
 \begin{frame}[c]
@@ -432,30 +462,24 @@ let f5 = (u) => f(5, u);
 \end{adjustwidth}
 \end{frame}
 
-\begin{frame}[fragile]{Projection}
-    
-\begin{verbatim}
-    let f = (k, u) => k * (k * (k+1) + u + 1) + u * u;
-    let f2 = (u) => 5 * (31 + u) + u * u;
-\end{verbatim}
+\begin{frame}[fragile]{Simplification}
+
+\begin{center}
+
+\texttt{let f = (k, u) => k * (k * (k+1) + u + 1) + u * u;} \\[10pt]
+
+by fixing $k=5$ and \textit{simplifying}: \\[10pt]
+
+\texttt{let f5 = (u) => 5 * (31 + u) + u * u;} \\[10pt]
 
 % because $f(2,u) = f_2(u)$ for any value of $u$, 
 
-\centering
-the following equation holds for $f_k$ and $f$
-
-
-    \begin{equation}
-        f_k(u)=f(k,u)
-    \end{equation}
-
-\centering
-we call this \textit{a projection of $f$ at $k$}
+\end{center}
 
 \end{frame}
 
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Rewriting}
     \begin{verbatim}
         function pow(n, k) {
             if (k <= 0) {
@@ -473,7 +497,7 @@ we call this \textit{a projection of $f$ at $k$}
             at (3.7,2) {};
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Rewriting}
     \begin{verbatim}
         function pow(n, k) {
             if (k <= 0) {
@@ -491,7 +515,7 @@ we call this \textit{a projection of $f$ at $k$}
     at (3.7,2) {};
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Rewriting}
     \begin{verbatim}
         function pow(n, k) {
             if (k <= 0) {
@@ -509,7 +533,7 @@ we call this \textit{a projection of $f$ at $k$}
     at (3.7,2) {};
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Rewriting}
     \begin{verbatim}
         function pow(n, k) {
             if (k <= 0) {
@@ -529,7 +553,7 @@ at (3.7,2) {};
 
 
 
-\begin{frame}[fragile]
+\begin{frame}[fragile]{Rewriting}
     \begin{verbatim}
         function pow(n, k) {
             if (k <= 0) {
@@ -538,19 +562,35 @@ at (3.7,2) {};
                 return n * pow(n, k-1);
             }
         }
-        let pow5 = alpha(pow, {k:5});
-        // (n) => n * n * n * n * n;
+        function pow5(n) {
+            return n * n * n * n * n;
+        }
     \end{verbatim}
-    \tikz[remember picture, overlay] 
+\tikz[remember picture, overlay] 
 \node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=3.5cm, text height=.2cm, opacity=.5] 
 at (3.7,2) {};
+
+\centering 
+In compiler implementation this is sometimes called \textit{inlining}
+
 \end{frame}
 
+
 \begin{frame}{Rewriting and Simplification}
-    \textbf{Rewriting} is
+    \begin{itemize}
+    \item In a \textit{recursive program schema} 
+    (\textit{e.g.,} lambda calculus, partial recursive functions) 
+    these are called \textit{rewriting} and \textit{simplification}.
+
+    \item \textbf{Rewriting} is
     similar to macro expansion and \textit{procedure integration} 
-    in the optimization technique of a compiler. Often combined with
-    \textbf{simplification.}
+    (\textit{$\beta$-reduction}, \textit{inlining})
+    in the optimization technique of a compiler.
+    
+    \item    Often combined with
+    \textbf{simplification} (\textit{constant folding})
+
+    \end{itemize}
 
     \centering
     \tikz 
@@ -558,6 +598,30 @@ at (3.7,2) {};
 
     
 \end{frame}
+
+
+\begin{frame}{Projection}
+\centering 
+    The following equation holds for $f_k$ and $f$
+    \begin{equation}
+        f_k(u)=f(k,u)
+    \end{equation}
+
+we call $f_k$ \textit{a projection of $f$ at $k$}
+\end{frame}
+
+\begin{frame}{Partial Evaluator}
+
+    A partial computation procedure may be a computer program $\alpha$
+    called \textit{a projection machine}, \textit{partial computer} 
+    or \textit{partial evaluator}.
+    
+    \begin{equation}
+        \alpha(f,k) = f_k
+    \end{equation}
+    
+\end{frame}
+
 
 \begin{frame}{Partial Evaluator}
     
@@ -602,31 +666,42 @@ at (3.7,2) {};
 
 \end{frame}
 
-\begin{frame}{Partial Evaluator}
 
-    A partial computation procedure may be a computer program $\alpha$
-    called \textit{a projection machine}, \textit{partial computer} 
-    or \textit{partial evaluator}.
-    
-    \begin{equation}
-        \alpha(f,k) = f_k
-    \end{equation}
-    
+
+
+\begin{frame}[fragile]{Partial Evaluator}
+    \begin{verbatim}
+        function pow(n, k) {
+            if (k <= 0) {
+                return 1;
+            } else {
+                return n * pow(n, k-1);
+            }
+        }
+        let pow5 = alpha(pow, {k:5});
+        // (n) => n * n * n * n * n;
+    \end{verbatim}
+    \tikz[remember picture, overlay] 
+\node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=3.5cm, text height=.2cm, opacity=.5] 
+at (3.7,2) {};
 \end{frame}
 
 
-\begin{frame}{Basic Equation of Partial Evaluation}
 
-    $\alpha$ is a partial evaluator; but $\alpha$ is itself a program.
+% \begin{frame}{Basic Equation of Partial Evaluation}
 
-    Thus, consider $\alpha_f$, the partial evaluation of $\alpha$ at $f$:
-\begin{eqnarray}
-            \alpha_f(k) &=& \alpha(f,k) \nonumber \\
-            \alpha(f,k) &=& f_k         \nonumber \\
-            \alpha_f(k) &=& f_k 
-\end{eqnarray}
+%     $\alpha$ is a partial evaluator; but $\alpha$ is itself a program.
 
-\end{frame}
+%     Thus, consider $\alpha_f$, the partial evaluation of $\alpha$ at $f$:
+% \begin{eqnarray}
+%             \alpha_f(k) &=& \alpha(f,k) \nonumber \\
+%             \alpha(f,k) &=& f_k         \nonumber \\
+%             \alpha_f(k) &=& f_k 
+% \end{eqnarray}
+
+% \end{frame}
+
+\setcounter{equation}{3}
 
 \setbeamercovered{transparent} 
 
@@ -653,7 +728,7 @@ at (3.7,2) {};
 
     \end{itemize}
     \[
-        \I(\P,\D) = \R    
+        \I(\P,\D) %= \R    
     \]
     \pause
 
@@ -664,7 +739,7 @@ at (3.7,2) {};
         \item The \textit{object program} processes the input and returns the result
     \end{itemize}
     \[
-        \C(\P)(\D) = \R    
+        \C(\P)(\D) %= \R    
     \]
 
 \end{frame}
@@ -751,11 +826,8 @@ We recall the previous definitions of \textit{interpreter}
 and \textit{compiler}.
 
 \begin{eqnarray}
-    \mathcal{I}(\mathcal{P}, \mathcal{D}) &=& \R \nonumber \\
-    \C(\P)&=&\P' \nonumber \\
-    \P' &=& \R \nonumber  \\
-    \mathcal{C}(\mathcal{P})(\mathcal{D}) &=& \mathcal{I}(\mathcal{P},\mathcal{D}) \nonumber \\
-    \mathcal{I}_{\mathcal{P}} &=&  \alpha(\mathcal{I},\mathcal{P}) \nonumber \\ 
+    \mathcal{I}(\mathcal{P},\mathcal{D}) &=& \mathcal{C}(\mathcal{P})(\mathcal{D}) \nonumber \\
+    \alpha(\mathcal{I},\mathcal{P}) &=& \mathcal{I}_{\mathcal{P}} \nonumber   \\ 
     \mathcal{I}_{\mathcal{P}} &=&  \mathcal{C}(\mathcal{P})
 \end{eqnarray}
 
@@ -796,6 +868,46 @@ and \textit{compiler}.
 \end{frame}
 
 \begin{frame}{Partial Evaluation of an Interpreter}
+
+\begin{center}
+
+    \begin{tikzpicture}
+        \tikzstyle{every path}=[draw, ->]
+        \tikzstyle{envel}=[shape=ellipse, draw]
+        \tikzstyle{circ}=[draw, circle]
+        \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
+            \node [circ] (in1) at (2,3) {\P};    
+            \node [circ] (in2) at (2,1) {\D};    
+            \node [circ] (out) at (8,2) {\R};    
+            \node [box] (box) at (5,2) {\I};
+            
+            
+            \path (in1) -- (box);    
+            \path (in2) -- (box);    
+            \path (box) -- (out);
+
+
+            \begin{scope}[shift={(in1))},x={(box)},y={($(in1)!1!90:(box)$)}]
+                \draw[red] (.5,0) ellipse (.8 and .5);
+            \end{scope}
+
+            \node[box](proj) at (5,-.5) {$\I_\P$};
+
+            \draw[
+                line join=round,
+                decorate, decoration={
+                zigzag,
+                segment length=4,
+                amplitude=1,post=lineto,
+                post length=2pt}] (5,.9) -- (proj) node [midway, label=right:{$\alpha$}] {} ;
+            
+    \end{tikzpicture}
+    
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Partial Evaluation of \only<1>{an Interpreter}\only<2->{the Partial Evaluation of an Interpreter}}
 
     \begin{center}
     
@@ -877,11 +989,11 @@ and \textit{compiler}.
 
 \begin{frame}
     \tikz[overlay]
-    \node at (5,0) {\includegraphics[width=18cm]{imgs/inception.jpg}};
+    \node at (5,0) {\includegraphics[width=19cm]{imgs/inception.jpg}};
 \end{frame}
 
 
-\begin{frame}{Partial Evaluation of a Partial Evaluator}
+\begin{frame}{Partial Evaluation of the Partial Evaluation of an Interpreter}
 
     \begin{center}
     
@@ -923,7 +1035,7 @@ and \textit{compiler}.
     \end{frame}
 
 
-\begin{frame}{Partial Evaluation of a Partial Evaluator}
+\begin{frame}{\only<2->{Partial Evaluation of the} Partial Evaluation of the Partial Evaluation of an Interpreter}
 
 
     \begin{center}
@@ -1008,14 +1120,15 @@ and \textit{compiler}.
 \begin{frame}{Partial Evaluation of a Partially-Evaluated Evaluator}
 
     \begin{itemize}
-    \item Let us call \I-language a language implemented by interpreter \I,  
+    \item Let us call \textbf{\I-language} a language implemented by interpreter \I,  
     
     \[
         \alpha_\alpha(\mathcal{I}) =  \alpha_\mathcal{I}
     \]
     
 
-    \item $\alpha_\I$ is then a \I-language compiler,  
+    \item $\alpha_\I$ is then a \textbf{\I-language compiler}
+    
     \item let us now substitute $\alpha$ for $\I$ in $\alpha_\alpha(\mathcal{I}) = \alpha_\mathcal{I}$,
     \item which means considering $\alpha$ an interpreter for the $\alpha$-language.
     
@@ -1023,7 +1136,7 @@ and \textit{compiler}.
         \alpha_\alpha(\alpha)=\alpha_\alpha    
     \]
 
-    \item $\alpha_\alpha$ is an $\alpha$-language compiler.
+    \item $\alpha_\alpha$ is an \textbf{$\alpha$-language} compiler.
 
 
     \end{itemize}
@@ -1281,12 +1394,12 @@ next partial evaluation is less speculative.
 
 \begin{frame}
     \tikz[overlay]
-    \node at (6,-.5) {\includegraphics[width=33cm]{imgs/futamura.png}};
+    \node at (6,-.5) {\includegraphics[width=19cm]{imgs/futamura.png}};
 \end{frame}
 
 
 \begin{frame}[c]
-    \centering \Large \bf \color{Blue} Q\&A 
+    \centering \LARGE \bf \color{Blue} Q\&A 
     \end{frame}
 
 \end{document}
