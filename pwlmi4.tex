@@ -64,14 +64,14 @@
     \tikz[overlay]
     \node at (6,-.5) {\includegraphics[width=15cm]{imgs/graalvm1.pdf}};
     \tikz[overlay]
-    \node at (6,-5) {\footnotesize https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere};
+    \node at (6,-5) {\footnotesize \href{https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere}{https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere}};
 \end{frame}
 
 \begin{frame}
     \tikz[overlay]
     \node at (6,-.5) {\includegraphics[width=15cm]{imgs/graalvm2.pdf}};
     \tikz[overlay]
-    \node at (6,-5) {\footnotesize https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere};
+    \node at (6,-5) {\footnotesize \href{https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere}{https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere}};
 \end{frame}
 
 
@@ -181,6 +181,33 @@ derived from the interpreter using partial evaluation}. This
     };
 \end{frame}
 
+
+\begin{frame}{Computation Models}
+    \begin{itemize}
+        \item ``A sort of programming language''
+        \item \emph{Mechanical} evaluation
+        \item Turing machines 
+        \item Partial recursive functions 
+        \item Church's Lambda expressions 
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Computational Models}
+    \begin{enumerate}
+        \item Conditional
+        \item Read/Write Memory
+        \item Jump (loop)
+    \end{enumerate}
+        
+    \begin{enumerate}
+        \item Condition
+        \item Expression
+        \item Function Definition
+    \end{enumerate}
+\end{frame}
+
+
 \begin{frame}{Program Evaluation}
 
     \begin{itemize}
@@ -269,16 +296,13 @@ derived from the interpreter using partial evaluation}. This
 
 \end{frame}
 
-\begin{frame}\centering
-    \begin{tikzpicture}
-        \tikzstyle{every path}=[draw, ->]
-        \tikzstyle{circ}=[draw, circle]
-        \tikzstyle{box}=[inner sep=10pt, draw, rectangle, align=left]
-        \node[text width=3cm] (p)  at (3,2) {
-            $f(k,u) = k+u$
-        };
-        \node[text width=4cm] (p)  at (3,0) {
-            \textbf{Instructions}
+\begin{frame}
+
+    \begin{columns}
+        \begin{column}{0.3\textwidth}
+            $f(k,u) = k+u$ \\[10pt]
+
+            \textbf{Instructions} \\[3pt]
 
             \texttt{add x y}
 
@@ -287,11 +311,11 @@ derived from the interpreter using partial evaluation}. This
             \texttt{mul x y}
             
             \texttt{...}
-        };
-        
-        \node [inner sep=8pt, align=left] (i) at (10,0) {
+        \end{column}
+        \begin{column}{0.4\textwidth}
+
             $\textbf{push}(\D)$\\
-            $\textbf{while}(\textrm{true})$ \\
+            $\textbf{while}(\textrm{true})$: \\
 
             $\quad \textrm{instr} \gets \textit{fetch-next}(\P)$ \\
             
@@ -307,9 +331,45 @@ derived from the interpreter using partial evaluation}. This
             \quad \quad \quad 
                 $\textbf{push}(\textrm{result})$ \\
             \quad \quad \textbf{case} \dots \\
+        \end{column}
+        \end{columns}
+        % \begin{columns}[t]
+        % \begin{column}[1]{width=0.5\textwidth}
+        %     $f(k,u) = k+u$
 
-        };
-\end{tikzpicture}
+        %     \textbf{Instructions}
+
+        %     \texttt{add x y}
+
+        %     \texttt{sub x y}
+            
+        %     \texttt{mul x y}
+            
+        %     \texttt{...}
+
+        % \end{column}
+        % \begin{column}[1]{width=0.5\textwidth}
+
+        %     $\textbf{push}(\D)$\\
+        %     $\textbf{while}(\textrm{true}):$ \\
+
+        %     $\quad \textrm{instr} \gets \textit{fetch-next}(\P)$ \\
+            
+        %     \quad \textbf{switch}({instr.op}): \\
+        %     \quad \quad \textbf{case} \texttt{'add'}: \\
+        %     \quad \quad \quad 
+        %         $\texttt{x}\gets \textbf{pop}()$\\
+        %     \quad \quad \quad 
+        %         $\texttt{y}\gets \textbf{pop}()$ \\
+                
+        %     \quad \quad \quad 
+        %         $\textrm{result} \gets x+y$ \\
+        %     \quad \quad \quad 
+        %         $\textbf{push}(\textrm{result})$ \\
+        %     \quad \quad \textbf{case} \dots \\
+        % \end{column}
+        % \end{columns}
+
 
 \end{frame}
 
@@ -358,6 +418,8 @@ derived from the interpreter using partial evaluation}. This
 \end{frame}
 
 \begin{frame}[fragile,c]
+    $f(k,u)=k+u$
+
     \begin{verbatim}
     sum:
         lea     eax, [rdi+rsi]
@@ -466,13 +528,16 @@ Hello world!
     \item Not exactly!
         In \emph{functional programming} \emph{currying} or 
         \emph{partial application} is $f_5(u) := f(5,u)$
+\end{itemize}
 
 \begin{verbatim}
-let f = 
- (k, u) =>  
-  k * (k * (k+1) + u + 1) + u * u;
-let f5 = (u) => f(5, u);
+  let f = 
+    (k, u) =>  
+      k * (k * (k+1) + u+1) + u*u;
+  let f5 = (u) => f(5, u);
 \end{verbatim}
+
+\begin{itemize}
 \item In a functional programming language this usually \emph{does not change}
             the program that implements $f$
 \end{itemize}
@@ -590,8 +655,9 @@ at (3.7,2) {};
 \node[anchor=west,color=yellow,fill=yellow,draw,rectangle,text width=3.5cm, text height=.2cm, opacity=.5] 
 at (3.7,2) {};
 
-\centering 
-In compiler implementation this is sometimes called \textit{inlining}
+\tikz[remember picture, overlay] 
+\node[rectangle,text width=3.5cm, text centered] 
+at (10,2) {In compilers this is sometimes called \textit{inlining}};
 
 \end{frame}
 
@@ -620,21 +686,28 @@ In compiler implementation this is sometimes called \textit{inlining}
 \end{frame}
 
 
-\begin{frame}{Projection}
-\centering 
+\begin{frame}[c]{Projection}    
+    \tikz[remember picture, overlay] 
+    \node at (current page.center) {\includegraphics[height=12cm]{imgs/alex-litvin-unsplash.jpg}};
+    
+    \tikz[remember picture, overlay] 
+    \node[text centered] at ($(current page.center) + (0,3)$) {\Large \color{Blue}{Projection}};
+
+    \centering
+
     The following equation holds for $f_k$ and $f$
     \begin{equation}
         f_k(u)=f(k,u)
     \end{equation}
 
-we call $f_k$ \textit{a projection of $f$ at $k$}
+we call $f_k$ \textbf{a projection of $f$ at $k$}
 \end{frame}
 
 \begin{frame}{Partial Evaluator}
 
     A partial computation procedure may be a computer program $\alpha$
-    called \textit{a projection machine}, \textit{partial computer} 
-    or \textit{partial evaluator}.
+    called \textbf{a projection machine}, \textbf{partial computer} 
+    or \textbf{partial evaluator}.
     
     \begin{equation}
         \alpha(f,k) = f_k
@@ -753,9 +826,9 @@ at (3.7,2) {};
 
     \begin{itemize}
         \item A compiler is a \textit{program}
-        \item This \emph{program} takes a \textit{source program} 
+        \item This \emph{program} takes a \textbf{source program} 
                 and returns an \textit{object program}
-        \item The \textit{object program} processes the input and returns the result
+        \item The \textbf{object program} processes the input and returns the result
     \end{itemize}
     \[
         \C(\P)(\D) %= \R    
@@ -810,7 +883,7 @@ at (3.7,2) {};
 \end{frame}
 
 
-\begin{frame}{Partially Evaluated Interpreter}
+\begin{frame}{First Equation of Partial Computation (First Projection)}
     \begin{center}
     
         \begin{tikzpicture}
@@ -828,39 +901,25 @@ at (3.7,2) {};
 
     \begin{itemize}
     \item That is, by feeding \D into $\I_\P$, you get \R;
-    \item in other words, $\I_\P$ is \textit{an object program}.
+    \item in other words, $\I_\P$ is \textbf{an object program}.
     \end{itemize}
-    
-\end{frame}
-
-
-\begin{frame}{First Equation of Partial Computation (First Projection)}
-
-    
-% An \textit{interpreter} $\mathcal{I}$ is a program to perform
-% specified computations that analyze the meanings of a given program, 
-% say $\mathcal{P}$, based upon given data, say $\mathcal{D}$. 
-
-We recall the previous definitions of \textit{interpreter}
-and \textit{compiler}.
-
-\begin{eqnarray}
-    \mathcal{I}(\mathcal{P},\mathcal{D}) &=& \mathcal{C}(\mathcal{P})(\mathcal{D}) \nonumber \\
-    \alpha(\mathcal{I},\mathcal{P}) &=& \mathcal{I}_{\mathcal{P}} \nonumber   \\ 
-    \mathcal{I}_{\mathcal{P}} &=&  \mathcal{C}(\mathcal{P})
-\end{eqnarray}
-
-
+    \begin{eqnarray}
+        \mathcal{I}(\mathcal{P},\mathcal{D}) &=& \mathcal{C}(\mathcal{P})(\mathcal{D}) \nonumber \\
+        \alpha(\mathcal{I},\mathcal{P}) &=& \mathcal{I}_{\mathcal{P}} \nonumber   \\ 
+        \mathcal{I}_{\mathcal{P}} &=&  \mathcal{C}(\mathcal{P})
+    \end{eqnarray}
 \end{frame}
 
 \begin{frame}
 
-            $\textbf{push}(\D)$\\
-            \textcolor<2->{white}{$\textbf{while}(\textrm{true})$} \\
+            \[ f(k,u) = k + u \quad\quad\quad\quad\texttt{(add x  y)} \]
 
-            \textcolor<2->{white}{$\quad \textrm{instr} \gets \textit{fetch-next}(\P)$} \\
+            $\textbf{push}(\D)$\\
+            \textcolor<2->{lightgray}{$\textbf{while}(\textrm{true})$:} \\
+
+            \textcolor<2->{lightgray}{$\quad \textrm{instr} \gets \textit{fetch-next}(\P)$} \\
             
-            \textcolor<2->{white}{\quad \textbf{switch}({instr.op})}: \\
+            \textcolor<2->{lightgray}{\quad \textbf{switch}({instr.op}):} \\
             \quad \quad \textbf{case} \texttt{'add'}: \\
             \quad \quad \quad 
                 $\texttt{x}\gets \textbf{pop}()$\\
@@ -871,7 +930,7 @@ and \textit{compiler}.
                 $\textrm{result} \gets x+y$ \\
             \quad \quad \quad 
                 $\textbf{push}(\textrm{result})$ \\
-            \textcolor<2->{white}{\quad \quad \textbf{case} \dots} \\
+            \textcolor<2->{lightgray}{\quad \quad \textbf{case} \dots} \\
 
 
 \end{frame}
@@ -1189,28 +1248,27 @@ and \textit{compiler}.
     \begin{itemize}
     \item $\alpha_\alpha$ is an $\alpha$-language compiler.
     \item $\alpha_\alpha(\I)=\alpha_\I$ is an object program of $\I$; thus:
-    \item What is the $\alpha$-language?
     \begin{equation}
         \alpha_\alpha(\I)(\P) =  \I_\P
     \end{equation}
+    \item What is the $\alpha$-language?
     \end{itemize}
 
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}{What is the $\alpha$-language?}
+    \begin{eqnarray*}
+        \alpha_\alpha(\I)(\P) &=&  \I_\P \\
+        \alpha_\alpha(f)(k)   &=&  f_k
+    \end{eqnarray*}
 
     \begin{itemize}
-        \item What is the $\alpha$-language?
-        \begin{eqnarray*}
-            \alpha_\alpha(\I)(\P) &=&  \I_\P \\
-            \alpha_\alpha(f)(k)   &=&  f_k
-        \end{eqnarray*}
 
     \item In other words, by finding $\alpha_\alpha$ we can generate
     the \textbf{partial computation} of $f$ at $k$, $f_k$
     
-    \item That is, $\alpha_\alpha$ is a \textbf{partial evaluation compiler}.
+    \item That is, $\alpha_\alpha$ is a \textbf{partial evaluation compiler} (or \textit{generator}).
 
     \item However, \emph{the author notes}, at the time of writing, 
     \textbf{there is no way to produce} $\alpha_\alpha$ from $\alpha(\alpha, \alpha)$
@@ -1226,117 +1284,42 @@ and \textit{compiler}.
     \centering \Large \bf \color{Blue} Theory of Partial Computation \\ and \\ Technical Problems 
     \end{frame}
 
-\begin{frame}{Theory of Partial Computation}
-    \begin{itemize}
-        \item 
-            in the 1930's Turing, Church, Kleene proposed several
-            computational models and clarified the mathematical meanings of mechanical
-            procedure.
-        \item a \emph{computation model} is a sort of programming language
-        \item \emph{e.g.} Turing machines, lambda expressions, and  partial recursive functions.
-        \pause
-        \item 
-            research on \emph{computability}, \emph{i.e.,} \emph{computational power} 
-            of the models, not complexity or efficiency
-        % \item as far as computability was concerned, partial computation is the same as 
-        %     ordinary computation: it did not attract research attention
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{$s^m_n$ theorem}
-    Appears in Kleene $s^m_n$ theorem (parameterization theorem, iteration theorem). 
-    % for any $m, n > 0$, there exists a primitive recursive function 
-    % $ s_{n}^{m}$ of $m + 1$ arguments that behaves as follows: 
-    % for every Gödel number $p$ of a partial computable function with $m + n$ 
-    % arguments, and all values of $x_1,\dots,x_m$: 
-    
-    % \[
-    %     \varphi_{s^m_n(p,x_1, \dots, x_m)} 
-    %         \simeq         
-    %             \lambda y_1, \dots, y_n \cdot \varphi_p (x_1, \dots, x_m, y_1, \dots, y_n) 
-    % \]
-
-
-    $\varphi^{(k)}_x$ recursive function of $k$
- variables with \emph{G\"odel number} $x$; 
- then for every $m\geq 1$ and $n\geq 1$ there exists
- a \emph{primitive recursive function} $s$ such that for all 
- $x, y_1, \dots, y_m$
- 
- 
-    
- \[
-    \lambda z_1, \dots, z_n \: \varphi_x^{(m+n)} (y_1, \dots, y_m, z_1, \dots, z_n) = \varphi^{(n)}_{s(x,y_1, \dots, y_m)}
-\]
-
-
-The third equation of partial computation ($\alpha_\alpha$)
-is also used in the proof of Kleene's recursion theorem
-
-
-
-\end{frame}
-
-\begin{frame}
-    \begin{itemize}
-        \item Turing machines and partial recursive functions were formulated to describe total computation
-        \item Chruch's lambda expression was based upon partial computation
-        \item \emph{lambda conversion} is partial computation: $f(5,u)$ with $u$ undefined, yields $f_5(u)$
-    \end{itemize}
-\end{frame}
-
-
-\begin{frame}
-    Implementation of a projection machine and its application to real world
-    problems started in the 1960's after the programming language LISP
-    began to be widely used
-   
-\end{frame}
-
 
 \begin{frame}{Conditions for a Projection Machines}
     \begin{enumerate}
-        \item Correctness: 
+        \item \textbf{Correctness.} 
             Program $\alpha$ must satisfy $\alpha(f,k)(u)=f(k,u)$
-        \item Efficiency Improvement: 
+        \item \textbf{Efficiency Improvement.} 
             Program $\alpha$ should perform as much computation as possible
             for the given data $k$
-        \item Termination:
+        \item \textbf{Termination.}
             Program $\alpha$ should terminate on partial computation of as 
             many programs as possible. Termination at $\alpha(\alpha,\alpha)$ 
             is most desirable
     \end{enumerate}
 
+\centering
 However, author notes, (2) is not \textit{mathematically clear}
 
 \end{frame}
 
-\begin{frame}{Recursive Program Schema}
-    \begin{enumerate}
-        \item Condition
-        \item Expression
-        \item Function Definition
-    \end{enumerate}
-
-\end{frame}
 
 \begin{frame}{Computation Rule for Recursive Program Schema}
 
 
+    \only<1>{Total}\only<2>{Partial} Computation\only<2>{ of $f$ at $k$}:
+
+
     \begin{enumerate} 
-        \item Rewriting
+        \item Rewriting \uncover<2>{(when semi-bound; e.g. $f(5,u)$)}
         \item Simplification
+        \item<2-> Tabulation
     \end{enumerate}
 
-    Partial Computation of $f$ at $k$:
-
-    \begin{enumerate}
-        \item Rewriting (when semi-bound)
-        \item Simplification
-        \item Tabulation
-    \end{enumerate}
-
-    The discriminating character for p.c. are the semi-bound call and tabulation.
+    \centering
+    \uncover<2>{
+    The discriminating character for p.c. are the \textit{semi-bound call} and 
+    \textit{tabulation}.}
 
 \end{frame}
 
@@ -1375,13 +1358,81 @@ However, author notes, (2) is not \textit{mathematically clear}
 \end{frame}
 
 
-\begin{frame}
+\begin{frame}{Termination}
     \centering 
     \tikz 
     \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/notation-concl.png}};
 \end{frame}
 
 
+\begin{frame}{Theory of Partial Computation}
+    \begin{itemize}
+        \item 
+            In the 1930's Turing, Church, Kleene proposed several
+            computational models and clarified the mathematical meanings of mechanical
+            procedure.
+        % \item a \emph{computation model} is a sort of programming language
+        % \item \emph{e.g.} Turing machines, lambda expressions, and  partial recursive functions.
+        \item 
+            Research on \emph{computability}, \emph{i.e.,} \emph{computational power} 
+            of the models, not complexity or efficiency
+        % \item as far as computability was concerned, partial computation is the same as 
+        %     ordinary computation: it did not attract research attention
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{$s^m_n$ theorem}
+    \begin{itemize}
+        \item 
+    Appears in Kleene $s^m_n$ theorem (parameterization theorem, iteration theorem). 
+    % for any $m, n > 0$, there exists a primitive recursive function 
+    % $ s_{n}^{m}$ of $m + 1$ arguments that behaves as follows: 
+    % for every Gödel number $p$ of a partial computable function with $m + n$ 
+    % arguments, and all values of $x_1,\dots,x_m$: 
+    
+    % \[
+    %     \varphi_{s^m_n(p,x_1, \dots, x_m)} 
+    %         \simeq         
+    %             \lambda y_1, \dots, y_n \cdot \varphi_p (x_1, \dots, x_m, y_1, \dots, y_n) 
+    % \]
+
+
+    \item $\varphi^{(k)}_x$ recursive function of $k$
+ variables with \emph{G\"odel number} $x$; 
+ 
+    \item then for every $m\geq 1$ and $n\geq 1$ there exists
+ a \emph{primitive recursive function} $s$ such that for all 
+ $x, y_1, \dots, y_m$
+ 
+\end{itemize}
+    
+    
+ \[
+    \lambda z_1, \dots, z_n \: \varphi_x^{(m+n)} (y_1, \dots, y_m, z_1, \dots, z_n) = \varphi^{(n)}_{s(x,y_1, \dots, y_m)}
+\]
+
+\centering
+
+The third equation of partial computation ($\alpha_\alpha$)
+is also used in the proof of Kleene's recursion theorem
+
+\end{frame}
+
+\begin{frame}{Programming Models}
+    \begin{itemize}
+        \item \textbf{Turing machines} and \textbf{partial recursive functions} were formulated to describe total computation
+        \item \textbf{Church's lambda expression} was based upon partial computation
+        \item \emph{lambda conversion} is partial computation:\\ $f(5,u)$ with $u$ undefined, yields $f_5(u)$
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+    Implementation of a projection machine and its application to real world
+    problems started in the 1960's after the programming language LISP
+    began to be widely used
+   
+\end{frame}
 
 \begin{frame}[c]
 \centering \Large \bf \color{Blue} GraalVM 
@@ -1444,16 +1495,29 @@ next partial evaluation is less speculative.
 \begin{frame}[c]{References}
     \begin{itemize}
         \item 
-            W\"urthinger et al. 2017
+            W\"urthinger et al. 2017,
+             \href{https://chrisseaton.com/rubytruffle/pldi17-truffle/pldi17-truffle.pdf}{Practical Partial Evaluation for High-Performance Dynamic Languages},
+             \textit{PLDI'17}
+
         \item 
-            \v Selajev, O. 2018 
-            \href{https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere}{GraalVM: Run Programs Faster Anywhere}
+            \v Selajev 2018, 
+            \href{https://gotober.com/2018/sessions/650/graalvm-run-programs-faster-anywhere}{GraalVM: Run Programs Faster Anywhere},
             \textit{GOTO Berlin 2018}
 
         \item 
-            Stuart, T. 2013
-            \href{https://codon.com/compilers-for-free}{Compilers for Free}
+            Bolz et al. 2011,
+            \href{https://www3.hhu.de/stups/downloads/pdf/BoCuFiLePeRi2011.pdf}{Allocation Removal by Partial Evaluation in a Tracing JIT},
+            \textit{PEPM'11}
+
+        \item 
+            Stuart 2013,
+            \href{https://codon.com/compilers-for-free}{Compilers for Free},
             \textit{RubyConf 2013}
+
+        \item 
+            Cook and L\"ammel 2011, 
+            \href{https://arxiv.org/abs/1109.0781}{Tutorial on Online Partial Evaluation},
+            \textit{EPTCS'11}
 
     \end{itemize}
 
