@@ -182,10 +182,11 @@ derived from the interpreter using partial evaluation}. This
 \end{frame}
 
 
-\begin{frame}{Computation Models}
+\begin{frame}{Computational Models}
     \begin{itemize}
         \item ``A sort of programming language''
         \item \emph{Mechanical} evaluation
+        \item[]
         \item Turing machines 
         \item Partial recursive functions 
         \item Church's Lambda expressions 
@@ -249,10 +250,12 @@ derived from the interpreter using partial evaluation}. This
             \tikzstyle{every path}=[draw, ->]
             \tikzstyle{circ}=[draw, circle, text centered]
             \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
-                \node [circ, text width=1cm] (d) at (2,2) {$3,4$};    
-                \node [circ, text width=1cm] (r) at (8,2) {$7$};    
+            \node [circ, text width=1cm] (k) at (2,3) {$3$};    
+            \node [circ, text width=1cm] (u) at (2,1) {$4$};    
+            \node [circ, text width=1cm] (r) at (8,2) {$7$};    
                 \node [box] (p) at (5,2) {$k+u$}; 
-                \path (d) -- (p);    
+                \path (k) -- (p);    
+                \path (u) -- (p);    
                 \path (p) -- (r);    
         \end{tikzpicture}
         
@@ -276,7 +279,7 @@ derived from the interpreter using partial evaluation}. This
 
     \begin{tikzpicture}
         \tikzstyle{every path}=[draw, ->]
-        \tikzstyle{circ}=[draw, circle]
+        \tikzstyle{circ}=[draw, circle, text centered]
         \tikzstyle{box}=[draw, rectangle, text width=1cm, text height=.5cm, text centered, text depth=.3cm]
             \node [circ] (p) at (2,3) {\P};    
             \node [circ] (d) at (2,1) {\D};    
@@ -312,24 +315,24 @@ derived from the interpreter using partial evaluation}. This
             
             \texttt{...}
         \end{column}
-        \begin{column}{0.4\textwidth}
+        \begin{column}{0.5\textwidth}
 
-            $\textbf{push}(\D)$\\
-            $\textbf{while}(\textrm{true})$: \\
+            $\textbf{write}(\D)$\\
+            $\textbf{while} (\textit{has-more-instructions}(\P))$: \\
 
-            $\quad \textrm{instr} \gets \textit{fetch-next}(\P)$ \\
+            $\quad \textrm{instr} \gets \textit{fetch-next-instruction}(\P)$ \\
             
-            \quad \textbf{switch}({instr.op}): \\
+            \quad \textbf{switch}(\textit{op}({instr})): \\
             \quad \quad \textbf{case} \texttt{'add'}: \\
             \quad \quad \quad 
-                $\texttt{x}\gets \textbf{pop}()$\\
+                $\texttt{x}\gets \textbf{read}()$\\
             \quad \quad \quad 
-                $\texttt{y}\gets \textbf{pop}()$ \\
+                $\texttt{y}\gets \textbf{read}()$ \\
                 
             \quad \quad \quad 
                 $\textrm{result} \gets x+y$ \\
             \quad \quad \quad 
-                $\textbf{push}(\textrm{result})$ \\
+                $\textbf{write}(\textrm{result})$ \\
             \quad \quad \textbf{case} \dots \\
         \end{column}
         \end{columns}
@@ -489,10 +492,10 @@ Hello world!
     \begin{itemize}
     \item Now suppose that $f$ is often called with $k=5$; 
     
-    \item we may define the program $f_5(u)$ by substituting $5$ for $k$ in $f$ 
-    and doing all possible computation based upon value $5$.
+    \item $f_5(u) := $ ``\textit{$f$ by substituting $5$ for $k$  
+    and doing all possible computation based upon value $5$}''
 
-    \item  Partial evaluation is the process of rewriting $f(5,u)$ into $f_5(u)$
+    \item  Partial evaluation is \textit{the process of transforming $f(5,u)$ into $f_5(u)$}
     \end{itemize}
 \end{frame}
  
@@ -915,30 +918,39 @@ at (3.7,2) {};
 \end{frame}
 
 \begin{frame}
-
             \[ f(k,u) = k + u \quad\quad\quad\quad\texttt{(add x  y)} \]
 
-            $\textbf{push}(\D)$\\
-            \textcolor<2->{lightgray}{$\textbf{while}(\textrm{true})$:} \\
+
+\begin{adjustwidth}{3cm}{3cm}
+            $\textbf{write}(\D)$\\
+
+            \textcolor<2->{lightgray}{$\textbf{while} (\textit{has-more-instructions}(\P))$: } \\
 
             \textcolor<2->{lightgray}{$\quad \textrm{instr} \gets \textit{fetch-next}(\P)$} \\
             
-            \textcolor<2->{lightgray}{\quad \textbf{switch}({instr.op}):} \\
+            \textcolor<2->{lightgray}{\quad \textbf{switch}(\textit{op}(instr)):} \\
             \quad \quad \textbf{case} \texttt{'add'}: \\
             \quad \quad \quad 
-                $\texttt{x}\gets \textbf{pop}()$\\
+                $\texttt{x}\gets \textbf{read}()$\\
             \quad \quad \quad 
-                $\texttt{y}\gets \textbf{pop}()$ \\
+                $\texttt{y}\gets \textbf{read}()$ \\
                 
             \quad \quad \quad 
                 $\textrm{result} \gets x+y$ \\
             \quad \quad \quad 
-                $\textbf{push}(\textrm{result})$ \\
+                $\textbf{write}(\textrm{result})$ \\
             \textcolor<2->{lightgray}{\quad \quad \textbf{case} \dots} \\
-            
-            \pause\begin{center}
-                ...but this interpreter executes on a \textit{machine}!                
-            \end{center}
+
+
+            \pause
+\begin{center}
+    ...but this interpreter executes on a \textit{machine}!                
+\end{center}
+
+\end{adjustwidth}
+
+
+
 \end{frame}
 
 
@@ -1365,9 +1377,15 @@ However, author notes, (2) is not \textit{mathematically clear}
 
 
 \begin{frame}{Termination}
-    \centering 
-    \tikz 
-    \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/notation-concl.png}};
+    % \centering 
+    % \tikz 
+    % \node at (current page.center) {\includegraphics[width=\textwidth]{imgs/notation-concl.png}};
+
+\begin{itemize}
+    \item Does not go into the details
+    \item Shows that for ``practical'' use cases it should terminate
+    \item Cites theoretical works (\textit{e.g.} Ershov)
+\end{itemize}
 \end{frame}
 
 
@@ -1378,7 +1396,7 @@ However, author notes, (2) is not \textit{mathematically clear}
             computational models and clarified the mathematical meanings of mechanical
             procedure.
         % \item a \emph{computation model} is a sort of programming language
-        % \item \emph{e.g.} Turing machines, lambda expressions, and  partial recursive functions.
+        \item \emph{e.g.} Turing machines, lambda expressions, and  partial recursive functions.
         \item 
             Research on \emph{computability}, \emph{i.e.,} \emph{computational power} 
             of the models, not complexity or efficiency
@@ -1428,15 +1446,18 @@ is also used in the proof of Kleene's recursion theorem
     \begin{itemize}
         \item \textbf{Turing machines} and \textbf{partial recursive functions} were formulated to describe total computation
         \item \textbf{Church's lambda expression} was based upon partial computation
-        \item \emph{lambda conversion} is partial computation:\\ $f(5,u)$ with $u$ undefined, yields $f_5(u)$
     \end{itemize}
+
+    \centering $f(5,u)$ with $u$ undefined, yields $f_5(u)$
+
 \end{frame}
 
 
-\begin{frame}
-    Implementation of a projection machine and its application to real world
+\begin{frame}[c]{Usage in LISPS}
+    \centering\large
+    ``Implementation of a projection machine and its application to real world
     problems started in the 1960's after the programming language LISP
-    began to be widely used
+    began to be widely used''
    
 \end{frame}
 
